@@ -5,6 +5,8 @@ const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
 const { google } = require('googleapis');
+const session = require('express-session'); // YENİ
+const MongoStore = require('connect-mongo'); // YENİ
 
 // 1. Ortam Değişkenlerini Yükle
 dotenv.config();
@@ -12,65 +14,58 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Admin Kullanıcı Bilgileri (Ortam Değişkenlerinden okunur)
+const ADMIN_USER = process.env.ADMIN_USER || 'admin';
+const ADMIN_PASS = process.env.ADMIN_PASS || 'password123';
+
 // 2. MongoDB Bağlantısı
 mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('✅ MongoDB bağlantısı başarılı.'))
     .catch(err => console.error('❌ MongoDB bağlantı hatası:', err));
 
-// 3. MongoDB Şeması (RAPOR ALANI EKLENDİ)
+// 3. MongoDB Şeması
 const ApplicationSchema = new mongoose.Schema({
-    // Kişisel Bilgiler
+    // Kişisel Bilgiler (Aynı Kalır)
     name: { type: String, required: true },
     email: { type: String, required: true },
-    telefon: String,
-    cinsiyet: String,
-    dogumTarihi: Date,
-    gozRengi: String,
-    boy: String,
-    kilo: String,
-    adres: String,
-
-    // Meslek ve Eğitim
-    profession: String,
-    egitim: Object,
-
-    // Ek Notlar
+    telefon: String, cinsiyet: String, dogumTarihi: Date, gozRengi: String, boy: String, kilo: String, adres: String,
+    // Meslek ve Eğitim (Aynı Kalır)
+    profession: String, egitim: Object,
+    // Ek Notlar (Aynı Kalır)
     message: String,
-    
-    // Dosya Bilgileri (Google Drive Linkleri)
-    cvPath: String, cvOriginalName: String,
-    fotografPath: String, fotografOriginalName: String,
-    pasaportPath: String, pasaportOriginalName: String,
-    kimlikKartiPath: String, kimlikKartiOriginalName: String,
-    surucuBelgesiPath: String, surucuBelgesiOriginalName: String,
-    diplomaTranskriptPath: String, diplomaTranskriptOriginalName: String,
-    mezuniyetBelgesiPath: String, mezuniyetBelgesiOriginalName: String,
-    meslekiYeterlilikPath: String, meslekiYeterlilikOriginalName: String,
-    muhtelifBelgelerPath: String, muhtelifBelgelerOriginalName: String,
-    sgkHizmetCetveliPath: String, sgkHizmetCetveliOriginalName: String,
-    adliSicilPath: String, adliSicilOriginalName: String,
-    almancaAdliSicilPath: String, almancaAdliSicilOriginalName: String,
-    nufusKayitPath: String, nufusKayitOriginalName: String,
-    formulAPath: String, formulAOriginalName: String,
-    formulBPath: String, formulBOriginalName: String,
-    hukukiBelgelerPath: String, hukukiBelgelerOriginalName: String,
-
-    raporPath: String, // 👈 YENİ: Oluşturulan rapor dosya yolu
-    
+    // Dosya Bilgileri (Aynı Kalır)
+    cvPath: String, cvOriginalName: String, fotografPath: String, fotografOriginalName: String, pasaportPath: String, pasaportOriginalName: String, kimlikKartiPath: String, kimlikKartiOriginalName: String, surucuBelgesiPath: String, surucuBelgesiOriginalName: String, diplomaTranskriptPath: String, diplomaTranskriptOriginalName: String, mezuniyetBelgesiPath: String, mezuniyetBelgesiOriginalName: String, meslekiYeterlilikPath: String, meslekiYeterlilikOriginalName: String, muhtelifBelgelerPath: String, muhtelifBelgelerOriginalName: String, sgkHizmetCetveliPath: String, sgkHizmetCetveliOriginalName: String, adliSicilPath: String, adliSicilOriginalName: String, almancaAdliSicilPath: String, almancaAdliSicilOriginalName: String, nufusKayitPath: String, nufusKayitOriginalName: String, formulAPath: String, formulAOriginalName: String, formulBPath: String, formulBOriginalName: String, hukukiBelgelerPath: String, hukukiBelgelerOriginalName: String,
+    raporPath: String, // Oluşturulan rapor dosya yolu
 }, { timestamps: true });
 
 const Application = mongoose.model('Application', ApplicationSchema);
 
-// 4. Express Ayarları
+// 4. Express, Session ve Middleware Ayarları
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 
-// 5. Multer (Geçici Dosya Yükleme) Ayarları
-const upload = multer({ dest: 'uploads/' });
+// YENİ: Oturum Yapılandırması
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'cok-gizli-bir-anahtar',
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
+    cookie: { maxAge: 1000 * 60 * 60 * 24 } // 24 saat
+}));
 
-// Tüm dosya alanlarının listesi
+// YENİ: Giriş Kontrol Middleware'i
+function requireLogin(req, res, next) {
+    if (req.session && req.session.isLoggedIn) {
+        return next();
+    }
+    // Eğer oturum yoksa, kullanıcıyı '/login' sayfasına yönlendir
+    res.redirect('/login');
+}
+
+// 5. Multer ve Google Drive API Yapılandırması (Aynı Kalır)
+const upload = multer({ dest: 'uploads/' });
 const fileFields = [
     { name: 'cv', maxCount: 1 }, { name: 'fotograf', maxCount: 1 },
     { name: 'pasaport', maxCount: 1 }, { name: 'kimlikKarti', maxCount: 1 },
@@ -82,7 +77,6 @@ const fileFields = [
     { name: 'formulB', maxCount: 1 }, { name: 'hukukiBelgeler', maxCount: 1 },
 ];
 
-// 6. Google Drive API Yapılandırması
 const oauth2Client = new google.auth.OAuth2(
     process.env.CLIENT_ID,
     process.env.CLIENT_SECRET,
@@ -111,7 +105,7 @@ async function uploadFileToDrive(filePath, fileName, mimeType) {
             requestBody: {
                 name: fileName,
                 mimeType: mimeType,
-                parents: [process.env.DRIVE_FOLDER_ID], // Belirtilen klasör ID'si (DRIVE_FOLDER_ID değişkeni kullanılıyor)
+                parents: [process.env.DRIVE_FOLDER_ID],
             },
             media: {
                 mimeType: mimeType,
@@ -120,7 +114,6 @@ async function uploadFileToDrive(filePath, fileName, mimeType) {
             fields: 'id, webViewLink'
         });
 
-        // Dosyayı herkesin erişimine aç
         await drive.permissions.create({
             fileId: response.data.id,
             requestBody: {
@@ -129,16 +122,16 @@ async function uploadFileToDrive(filePath, fileName, mimeType) {
             },
         });
 
-        return response.data.webViewLink; // Tarayıcıda görüntülenebilir link
+        return response.data.webViewLink;
     } catch (error) {
         console.error('❌ Drive Yükleme Hatası:', error.message);
         return null; 
     }
 }
 
-// 7. YENİ FONKSİYON: Form verilerini bir rapora dönüştürür
+// 7. YENİ FONKSİYON: Form verilerini bir rapora dönüştürür (Aynı Kalır)
 function generateReportFile(data, applicantName) {
-    const tempFileName = `${Date.now()}-${applicantName}-BILGI_RAPORU.txt`; // .txt uzantısı kullandık
+    const tempFileName = `${Date.now()}-${applicantName}-BILGI_RAPORU.txt`;
     const tempFilePath = path.join(__dirname, 'uploads', tempFileName);
 
     let content = `--- Aday Başvuru Bilgileri Raporu ---\n\n`;
@@ -175,30 +168,73 @@ function generateReportFile(data, applicantName) {
 }
 
 
-// --- ROTLAR ---
+// --- GİRİŞ VE ÇIKIŞ ROTLARI ---
 
 // Ana Sayfa (Form)
 app.get('/', (req, res) => {
     res.render('form');
 });
 
-// Başvuru İşleme Rotası
+// YENİ: Giriş Sayfası Rotası (login.ejs'i kullanır)
+app.get('/login', (req, res) => {
+    // req.query.error, başarısız giriş denemelerinde hata mesajını taşır
+    res.render('login', { error: req.query.error ? req.query.error : null });
+});
+
+// YENİ: Giriş İşleme Rotası
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+
+    if (username === ADMIN_USER && password === ADMIN_PASS) {
+        // Başarılı giriş
+        req.session.isLoggedIn = true;
+        res.redirect('/admin');
+    } else {
+        // Başarısız giriş
+        // Hata mesajını query string ile göndererek GET rotasında yakalayabiliriz
+        res.render('login', { error: 'Geçersiz kullanıcı adı veya şifre.' });
+    }
+});
+
+// YENİ: Çıkış Rotası
+app.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            console.error(err);
+            return res.redirect('/admin');
+        }
+        res.clearCookie('connect.sid'); // Oturum çerezini temizle
+        res.redirect('/login');
+    });
+});
+
+// YENİ: Yönetici Paneli Rotası (requireLogin ile korunuyor)
+app.get('/admin', requireLogin, async (req, res) => {
+    try {
+        const applications = await Application.find().sort({ createdAt: -1 });
+        res.render('admin', { applications });
+    } catch (error) {
+        console.error('❌ Admin paneli hatası:', error);
+        res.status(500).send('Başvurular yüklenirken hata oluştu.');
+    }
+});
+
+
+// Başvuru İşleme Rotası (Aynı Kalır)
 app.post('/submit', upload.fields(fileFields), async (req, res) => {
     const { body, files } = req;
     const uploadedFilesData = {};
-    const localFilePaths = []; // Temizlenecek yerel dosyalar
-
-    // İsim soyisim alınıyor ve dosya adı için temizleniyor
+    const localFilePaths = []; 
     const applicantName = body.name ? body.name.replace(/[^\w\s-]/g, '').trim().replace(/\s+/g, '_') : 'Bilinmeyen_Aday';
 
     try {
         // 1. OLUŞTURULAN BİLGİ RAPORUNU YÜKLEME
         const report = generateReportFile(body, applicantName);
-        localFilePaths.push(report.filePath); // Temizlenecekler listesine ekle
+        localFilePaths.push(report.filePath);
 
         const reportLink = await uploadFileToDrive(
             report.filePath,
-            `${applicantName} - BASVURU_RAPORU.txt`, // Drive'a yüklenen dosya adı
+            `${applicantName} - BASVURU_RAPORU.txt`,
             'text/plain'
         );
 
@@ -214,12 +250,10 @@ app.post('/submit', upload.fields(fileFields), async (req, res) => {
             if (fileArray && fileArray.length > 0) {
                 const file = fileArray[0];
                 
-                // YENİ DOSYA ADINI OLUŞTURMA: "Ad_Soyad - Orijinal Belge Adı"
                 const newFileName = `${applicantName} - ${file.originalname}`;
                 
                 const link = await uploadFileToDrive(file.path, newFileName, file.mimetype);
                 
-                // Drive linki ve YENİ, formatlanmış adı kaydedilir
                 uploadedFilesData[`${fieldName}Path`] = link;
                 uploadedFilesData[`${fieldName}OriginalName`] = newFileName;
                 localFilePaths.push(file.path);
@@ -228,8 +262,8 @@ app.post('/submit', upload.fields(fileFields), async (req, res) => {
 
         // 3. Başvuru Verilerini MongoDB'ye Kaydet
         const newApplication = new Application({
-            ...body, // Tüm metin alanları
-            ...uploadedFilesData // Drive dosya bilgileri
+            ...body,
+            ...uploadedFilesData
         });
 
         await newApplication.save();
@@ -247,18 +281,6 @@ app.post('/submit', upload.fields(fileFields), async (req, res) => {
                 if (err) console.error('❗ Yerel dosya silinirken hata:', err);
             });
         });
-    }
-});
-
-
-// Yönetici Paneli Rotası
-app.get('/admin', async (req, res) => {
-    try {
-        const applications = await Application.find().sort({ createdAt: -1 });
-        res.render('admin', { applications });
-    } catch (error) {
-        console.error('❌ Admin paneli hatası:', error);
-        res.status(500).send('Başvurular yüklenirken hata oluştu.');
     }
 });
 
