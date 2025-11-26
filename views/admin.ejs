@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+       
+    <meta charset="UTF-8">
+       
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Admin Paneli - Başvurular</title>
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #0c1f4c;
+            --secondary-color: #007bff;
+            --bg-color: #f0f2f5;
+            --sidebar-bg: #111827;
+            --sidebar-width: 260px;
+            --font-family: 'Inter', -apple-system, sans-serif;
+            --border-color: #e5e7eb;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--sidebar-bg);
+            color: #d1d5db;
+            padding: 24px;
+            box-sizing: border-box;
+            position: fixed;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #374151;
+            margin-bottom: 20px;
+        }
+
+        .sidebar-nav {
+            flex-grow: 1;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-nav li a {
+            display: block;
+            padding: 12px 16px;
+            text-decoration: none;
+            color: #d1d5db;
+            font-weight: 500;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-nav li a:hover {
+            background-color: #374151;
+            color: #fff;
+        }
+
+        .sidebar-nav li a.active {
+            background-color: var(--secondary-color);
+            color: #fff;
+        }
+
+        .sidebar-footer {
+            padding-top: 20px;
+            border-top: 1px solid #374151;
+        }
+
+        .sidebar-footer a {
+            display: block;
+            padding: 12px 16px;
+            text-decoration: none;
+            color: #d1d5db;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            background-color: #374151;
+            text-align: center;
+        }
+
+        .sidebar-footer a:hover {
+            background-color: #4b5563;
+            color: #fff;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            padding: 32px;
+            box-sizing: border-box;
+        }
+
+        .main-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0 0 24px 0;
+        }
+
+        .table-card {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 3800px;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+            vertical-align: top;
+            white-space: nowrap;
+        }
+
+        th {
+            background-color: #f9fafb;
+            color: #4b5563;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        tr:hover {
+            background-color: #f4f8ff;
+        }
+
+        td .file-link {
+            font-weight: 500;
+            color: var(--secondary-color);
+            display: block;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        td .file-link:hover {
+            text-decoration: underline;
+        }
+
+        .no-file {
+            color: #9ca3af;
+            font-style: italic;
+        }
+
+        .wrap-text {
+            white-space: normal;
+            min-width: 250px;
+            max-width: 400px;
+        }
+
+        .egitim-info {
+            font-size: 13px;
+        }
+
+        .egitim-info b {
+            display: inline-block;
+            width: 70px;
+            color: #555;
+        }
+
+        .no-apps {
+            text-align: center;
+            font-size: 18px;
+            color: #777;
+            margin: 30px;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 20px;
+            }
+
+            .sidebar-nav {
+                flex-grow: 0;
+            }
+
+            .sidebar-nav ul {
+                display: flex;
+            }
+
+            .sidebar-nav li a {
+                margin: 0 5px;
+            }
+
+            .sidebar-header {
+                border: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            .sidebar-footer {
+                border: none;
+                padding: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+        <div class="dashboard-layout">
+                <aside class="sidebar">
+                        <div>
+                                <div class="sidebar-header">Aday Paneli</div>
+                                <nav class="sidebar-nav">
+                                        <ul>
+                        <li><a href="/admin" class="active"><svg xmlns="http://www.w3.org/2000/svg" width="20"
+                                    height="20" fill="currentColor" viewBox="0 0 16 16"
+                                    style="margin-right: 10px; vertical-align: -3px;">
+                                    <path
+                                        d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z" />
+                                </svg>Başvurular</a></li>
+                    </ul>
+                                    </nav>
+                            </div>
+                        <div class="sidebar-footer"><a href="/logout">Çıkış Yap</a></div>
+                    </aside>
+                <main class="main-content">
+                        <header class="main-header">
+                <h1>Gelen Başvurular</h1>
+            </header>
+                        <%                 const renderFileLink=(path, name)=> {
+                                    if (path) {
+                                        // index.js artık tam Drive linkini kaydediyor.
+                                        return `<a href="${path}" target="_blank" class="file-link"
+                    title="${name}">${name}</a>`;
+                                    }
+                                    else { return `<span class="no-file">Yüklenmedi</span>`; }
+                                };
+                            %>
+                            <% if (applications.length> 0) { %>
+                                    <div class="table-card">
+                                            <div class="table-container">
+                                                    <table>
+                                                            <thead>
+                                                                    <tr>
+                                                                            <th>Tarih</th>
+                                        <th>Ad Soyad</th>
+                                        <th>E-posta</th>
+                                        <th>Telefon</th>
+                                        <th>Doğum Tarihi</th>
+                                        <th>Cinsiyet</th>
+                                                                            <th>Boy / Kilo</th>
+                                        <th>Göz Rengi</th>
+                                        <th>Meslek</th>
+                                        <th>Eğitim Bilgileri</th>
+                                        <th class="wrap-text">Adres</th>
+                                                                            <th class="wrap-text">Ek Notlar</th>
+                                        <th>CV</th>
+                                        <th>Fotoğraf</th>
+                                        <th>Pasaport</th>
+                                        <th>Kimlik Kartı</th>
+                                                                            <th>Sürücü Belgesi</th>
+                                        <th>Diploma/Transkript</th>
+                                        <th>Mezuniyet Belgesi</th>
+                                        <th>Mesleki Yeterlilik</th>
+                                                                            <th>Muhtelif Belgeler</th>
+                                        <th>SGK Hizmet Cetveli</th>
+                                        <th>Adli Sicil</th>
+                                        <th>Almanca Adli Sicil</th>
+                                                                            <th>Nüfus Kayıt</th>
+                                        <th>Formül A</th>
+                                        <th>Formül B</th>
+                                        <th>Hukuki Belgeler</th>
+                                                                       
+                                    </tr>
+                                                                </thead>
+                                                            <tbody>
+                                                                    <% applications.forEach(app=> { %>
+                                                                            <tr>
+                                                                                    <td>
+                                                <%= app.createdAt.toLocaleString('tr-TR', {dateStyle: 'short' ,
+                                                    timeStyle: 'short' }) %>
+                                            </td>
+                                                                                    <td style="font-weight: 500;">
+                                                <%= app.name %>
+                                            </td>
+                                                                                    <td><a
+                                                    href="mailto:<%= app.email %>" class="file-link">
+                                                    <%= app.email %>
+                                                </a></td>
+                                                                                    <td>
+                                                <%= app.telefon || '-' %>
+                                            </td>
+                                                                                    <td>
+                                                <%= app.dogumTarihi ? new
+                                                    Date(app.dogumTarihi).toLocaleDateString('tr-TR') : '-' %>
+                                            </td>
+                                                                                    <td>
+                                                <%= app.cinsiyet || '-' %>
+                                            </td>
+                                                                                    <td>
+                                                <%= (app.boy || '-' ) + ' / ' + (app.kilo || '-' ) %>
+                                            </td>
+                                                                                    <td>
+                                                <%= app.gozRengi || '-' %>
+                                            </td>
+                                                                                    <td>
+                                                <%= app.profession || '-' %>
+                                            </td>
+                                                                                    <td class="wrap-text egitim-info">
+                                                                                            <% if (app.egitim) { %>
+                                                                                                    <% if
+                                                        (app.egitim.ilkokul && app.egitim.ilkokul.okul) { %>
+                                                        <b>İlkokul:</b>
+                                                        <%= app.egitim.ilkokul.okul %> (<%= app.egitim.ilkokul.yil %>
+                                                                )<br>
+                                                                <% } %>
+                                                                                                                    <%
+                                                                        if (app.egitim.ortaokul &&
+                                                                        app.egitim.ortaokul.okul) { %> <b>Ortaokul:</b>
+                                                                        <%= app.egitim.ortaokul.okul %> (<%=
+                                                                                app.egitim.ortaokul.yil %>)<br>
+                                                                                <% } %>
+                                                                                                                       
+                                                                                                <% if (app.egitim.lise
+                                                                                        && app.egitim.lise.okul) { %>
+                                                                                        <b>Lise:</b>
+                                                                                        <%= app.egitim.lise.okul %> (<%=
+                                                                                                app.egitim.lise.yil %>
+                                                                                                )<br>
+                                                                                                <% } %>
+                                                                                                                       
+                                                                                                                       
+                                                                                                            <% if
+                                                                                                        (app.egitim.onlisans
+                                                                                                        &&
+                                                                                                        app.egitim.onlisans.okul)
+                                                                                                        { %>
+                                                                                                        <b>Önlisans:</b>
+                                                                                                        <%= app.egitim.onlisans.okul
+                                                                                                            %> (<%=
+                                                                                                                app.egitim.onlisans.yil
+                                                                                                                %>)<br>
+                                                                                                                <% } %>
+                                                                                                                       
+                                                                                                                       
+                                                                                                                       
+                                                                                                                       
+                                                                                                                       
+                                                                                                                       
+                                                                                                                       
+                                                                                                                       
+                                                                                                                       
+                                                                                                                       
+                                                                                                                       
+                                                                                                                       
+                                                                                                                    <% if
+                                                                                                                        (app.egitim.lisans
+                                                                                                                        &&
+                                                                                                                        app.egitim.lisans.okul)
+                                                                                                                        {
+                                                                                                                        %>
+                                                                                                                        <b>Lisans:</b>
+                                                                                                                        <%= app.egitim.lisans.okul
+                                                                                                                            %>
+                                                                                                                            (
+                                                                                                                            <%= app.egitim.lisans.yil
+                                                                                                                                %>
+                                                                                                                                )<br>
+                                                                                                                                <% }
+                                                                                                                                    %>
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                     
+                                                                                                                                    <% if
+                                                                                                                                        (app.egitim.doktora
+                                                                                                                                        &&
+                                                                                                                                        app.egitim.doktora.okul)
+                                                                                                                                        {
+                                                                                                                                        %>
+                                                                                                                                        <b>Doktora:</b>
+                                                                                                                                        <%= app.egitim.doktora.okul
+                                                                                                                                            %>
+                                                                                                                                            (
+                                                                                                                                            <%= app.egitim.doktora.yil
+                                                                                                                                                %>
+                                                                                                                                                )
+                                                                                                                                                <% }
+                                                                                                                                                    %>
+                                                                                                                                                     
+                                                                                                                                                     
+                                                                                                                                                     
+                                                                                                                                                     
+                                                                                                                                                     
+                                                                                                                                                     
+                                                                                                                                                     
+                                                                                                                                                     
+                                                                                                                                                     
+                                                                                                                                                     
+                                                                                                                                                     
+                                                                                                                                                     
+                                                                                                                                                     
+                                                                                                                                                     
+                                                                                                                                                     
+                                                                                                                                                     
+                                                                                                                                                     
+                                                                                                                                                     
+                                                                                                                                                     
+                                                                                                                                                     
+                                                                                                                                                     
+                                                                                                                                                     
+                                                                                                                                                    <% } else
+                                                                                                                                                        {
+                                                                                                                                                        %>
+                                                                                                                                                        -
+                                                                                                                                                        <% }
+                                                                                                                                                            %>
+                                                                                                                                                             
+                                                                                                                                                             
+                                                                                                                                                             
+                                                                                                                                                             
+                                                                                                                                                             
+                                                                                                                                                             
+                                                                                                                                                             
+                                                                                                                                                             
+                                                                                                                                                             
+                                                                                                                                                             
+                                                                                                                                                             
+                                                                                                                                                             
+                                                                                                                                                             
+                                                                                                                                                             
+                                                                                                                                                             
+                                                                                                                                                             
+                                                                                                                                                             
+                                                                                                                                                             
+                                                                                                                                                             
+                                                                                                                                                             
+                                            </td>
+                                                                                    <td class="wrap-text">
+                                                <%= app.adres || '-' %>
+                                            </td>
+                                                                                    <td class="wrap-text">
+                                                <%= app.message || '-' %>
+                                            </td>
+                                                                                    <td><%- renderFileLink(app.cvPath,
+                                                    app.cvOriginalName) %></td>
+                                                                                    <td><%-
+                                                    renderFileLink(app.fotografPath, app.fotografOriginalName) %></td>
+                                                                                    <td><%-
+                                                    renderFileLink(app.pasaportPath, app.pasaportOriginalName) %></td>
+                                                                                    <td><%-
+                                                    renderFileLink(app.kimlikKartiPath, app.kimlikKartiOriginalName) %>
+                                            </td>
+                                                                                    <td><%-
+                                                    renderFileLink(app.surucuBelgesiPath, app.surucuBelgesiOriginalName)
+                                                    %></td>
+                                                                                    <td><%-
+                                                    renderFileLink(app.diplomaTranskriptPath,
+                                                    app.diplomaTranskriptOriginalName) %></td>
+                                                                                    <td><%-
+                                                    renderFileLink(app.mezuniyetBelgesiPath,
+                                                    app.mezuniyetBelgesiOriginalName) %></td>
+                                                                                    <td><%-
+                                                    renderFileLink(app.meslekiYeterlilikPath,
+                                                    app.meslekiYeterlilikOriginalName) %></td>
+                                                                                    <td><%-
+                                                    renderFileLink(app.muhtelifBelgelerPath,
+                                                    app.muhtelifBelgelerOriginalName) %></td>
+                                                                                    <td><%-
+                                                    renderFileLink(app.sgkHizmetCetveliPath,
+                                                    app.sgkHizmetCetveliOriginalName) %></td>
+                                                                                    <td><%-
+                                                    renderFileLink(app.adliSicilPath, app.adliSicilOriginalName) %></td>
+                                                                                    <td><%-
+                                                    renderFileLink(app.almancaAdliSicilPath,
+                                                    app.almancaAdliSicilOriginalName) %></td>
+                                                                                    <td><%-
+                                                    renderFileLink(app.nufusKayitPath, app.nufusKayitOriginalName) %>
+                                            </td>
+                                                                                    <td><%-
+                                                    renderFileLink(app.formulAPath, app.formulAOriginalName) %></td>
+                                                                                    <td><%-
+                                                    renderFileLink(app.formulBPath, app.formulBOriginalName) %></td>
+                                                                                    <td><%-
+                                                    renderFileLink(app.hukukiBelgelerPath,
+                                                    app.hukukiBelgelerOriginalName) %></td>
+                                                                                </tr>
+                                                                        <% }) %>
+                                                                        </tbody>
+                                                        </table>
+                                                </div>
+                                        </div>
+                                <% } else { %>
+                                        <p class="no-apps">Henüz hiç başvuru alınmamış.</p>
+                                    <% } %>
+                                    </main>
+            </div>
+</body>
+
+</html>
