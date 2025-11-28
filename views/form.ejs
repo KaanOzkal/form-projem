@@ -655,7 +655,7 @@
                                     </div>
                                 <div class="form-section-title" style="font-size: 18px; margin-top: 20px;">Ek Notlar
                 </div>
-                                <div class="form-section">
+                    <div class="form-section">
                     <div class="form-group"><label for="message">Belgelerle ilgili eklemek istediğiniz
                             notlar:</label><textarea id="message" name="message" rows="4"></textarea></div>
                 </div>
@@ -663,6 +663,7 @@
                         onclick="prevStep(3)">&larr; Geri</button><button type="submit" class="submit-button"
                         id="submitButton">BAŞVURUYU TAMAMLA VE GÖNDER</button></div>
                             </div>
+
                     </form>
             </div>
        
@@ -731,7 +732,7 @@
                 // CV'nin zorunlu olduğunu varsayalım:
                 if (cvInput.files.length === 0) {
                     const cvLabel = cvInput.closest('.form-group').querySelector('label');
-                    showError(cvInput, 'CV yüklemek zorunludur.');
+                    showError(cvInput, 'CV yüklemek zorunludur eğer yok ise sitemizden oluşturabilirsiniz 😊 .');
                     isValid = false;
                 }
             }
@@ -784,7 +785,7 @@
                 fileNameSpan.textContent = inputElement.files[0].name;
                 fileNameSpan.style.fontStyle = "normal";
                 fileNameSpan.style.color = "#333";
-                hideError(inputElement); // Dosya seçilince hatayı kaldır
+                hideError(inputElement);
             } else {
                 fileNameSpan.textContent = "Dosya seçilmedi...";
                 fileNameSpan.style.fontStyle = "italic";
@@ -795,8 +796,8 @@
         // Form Gönderiminde Loading Durumu
         form.addEventListener('submit', function (event) {
             if (!validateStep(3)) {
-                event.preventDefault(); // Doğrulama başarısızsa gönderimi durdur
-                showStep(3); // Kullanıcıyı son adıma götür
+                event.preventDefault();
+                showStep(3);
                 return;
             }
 

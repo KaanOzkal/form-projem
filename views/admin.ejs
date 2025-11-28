@@ -2,30 +2,71 @@
 <html lang="tr">
 
 <head>
-       
     <meta charset="UTF-8">
-       
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Admin Paneli - Başvurular</title>
-        <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    <title>Admin Paneli - Başvurular</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
         :root {
             --primary-color: #0c1f4c;
+            --primary-light: #1a3a8f;
             --secondary-color: #007bff;
-            --bg-color: #f0f2f5;
-            --sidebar-bg: #111827;
-            --sidebar-width: 260px;
+            --secondary-light: #4dabf7;
+            --success-color: #28a745;
+            --success-light: #d4edda;
+            --danger-color: #dc3545;
+            --danger-light: #f8d7da;
+            --warning-color: #ffc107;
+            --warning-light: #fff3cd;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --sidebar-bg: #1e293b;
+            --sidebar-hover: #334155;
+            --sidebar-width: 280px;
             --font-family: 'Inter', -apple-system, sans-serif;
-            --border-color: #e5e7eb;
+            --border-color: #e2e8f0;
+            --hover-bg: #f1f5f9;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-light: #94a3b8;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s ease-in-out;
+        }
+
+        .dark-mode {
+            --primary-color: #3b82f6;
+            --primary-light: #60a5fa;
+            --secondary-color: #10b981;
+            --secondary-light: #34d399;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --sidebar-bg: #0f172a;
+            --sidebar-hover: #334155;
+            --border-color: #334155;
+            --hover-bg: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-light: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             font-family: var(--font-family);
             background-color: var(--bg-color);
-            margin: 0;
-            padding: 0;
-            color: #333;
+            color: var(--text-primary);
+            line-height: 1.5;
+            transition: var(--transition);
         }
 
         .dashboard-layout {
@@ -33,99 +74,297 @@
             min-height: 100vh;
         }
 
+        /* --- Sidebar Styles --- */
         .sidebar {
             width: var(--sidebar-width);
             background-color: var(--sidebar-bg);
-            color: #d1d5db;
-            padding: 24px;
+            color: var(--text-secondary);
+            padding: 24px 0;
             box-sizing: border-box;
             position: fixed;
             height: 100%;
             display: flex;
             flex-direction: column;
+            box-shadow: var(--shadow-md);
+            z-index: 100;
+            transition: var(--transition);
         }
 
         .sidebar-header {
-            font-size: 22px;
-            font-weight: 700;
-            color: #fff;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #374151;
+            padding: 0 24px 24px;
+            border-bottom: 1px solid var(--border-color);
             margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        .sidebar-nav {
-            flex-grow: 1;
+        .sidebar-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 18px;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            color: var(--text-primary);
         }
 
         .sidebar-nav ul {
             list-style: none;
-            padding: 0;
-            margin: 0;
+            padding: 0 16px;
         }
 
         .sidebar-nav li a {
-            display: block;
+            display: flex;
+            align-items: center;
             padding: 12px 16px;
             text-decoration: none;
-            color: #d1d5db;
+            color: var(--text-secondary);
             font-weight: 500;
-            border-radius: 8px;
+            border-radius: var(--radius-md);
             margin-bottom: 8px;
-            transition: all 0.2s ease;
+            transition: var(--transition);
         }
 
         .sidebar-nav li a:hover {
-            background-color: #374151;
-            color: #fff;
+            background-color: var(--sidebar-hover);
+            color: var(--text-primary);
         }
 
         .sidebar-nav li a.active {
-            background-color: var(--secondary-color);
+            background-color: var(--primary-color);
             color: #fff;
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .sidebar-nav-icon {
+            margin-right: 12px;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .sidebar-footer {
-            padding-top: 20px;
-            border-top: 1px solid #374151;
+            margin-top: auto;
+            padding: 0 24px;
         }
 
         .sidebar-footer a {
-            display: block;
+            background-color: var(--primary-color);
+            color: #fff;
             padding: 12px 16px;
-            text-decoration: none;
-            color: #d1d5db;
-            font-weight: 500;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            background-color: #374151;
+            border-radius: var(--radius-md);
+            transition: var(--transition);
             text-align: center;
+            text-decoration: none;
+            display: block;
+            font-weight: 500;
         }
 
         .sidebar-footer a:hover {
-            background-color: #4b5563;
-            color: #fff;
+            background-color: var(--primary-light);
+            box-shadow: var(--shadow-sm);
         }
 
+        /* --- Main Content --- */
         .main-content {
             margin-left: var(--sidebar-width);
             width: calc(100% - var(--sidebar-width));
             padding: 32px;
             box-sizing: border-box;
+            transition: var(--transition);
+        }
+
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
         }
 
         .main-header h1 {
             font-size: 28px;
             font-weight: 700;
-            color: var(--primary-color);
-            margin: 0 0 24px 0;
+            color: var(--text-primary);
+            margin: 0;
         }
 
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-light);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-secondary {
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        /* --- Stats Cards --- */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .stat-card.active {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(12, 31, 76, 0.1);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* --- Table Styles --- */
         .table-card {
-            background-color: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
             overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .table-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .table-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-input {
+            padding: 8px 12px 8px 36px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-size: 14px;
+            width: 240px;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
         }
 
         .table-container {
@@ -135,22 +374,21 @@
 
         table {
             width: 100%;
-            min-width: 3800px;
+            min-width: 4400px; /* Yeni sütunlar için genişletildi */
             border-collapse: collapse;
         }
 
-        th,
-        td {
+        th, td {
             padding: 14px 18px;
             border-bottom: 1px solid var(--border-color);
             text-align: left;
-            vertical-align: top;
+            vertical-align: middle;
             white-space: nowrap;
         }
 
         th {
-            background-color: #f9fafb;
-            color: #4b5563;
+            background-color: var(--hover-bg);
+            color: var(--text-secondary);
             font-size: 13px;
             font-weight: 600;
             text-transform: uppercase;
@@ -160,10 +398,41 @@
             z-index: 10;
         }
 
-        tr:hover {
-            background-color: #f4f8ff;
+        tr {
+            transition: var(--transition);
         }
 
+        tr:hover {
+            background-color: var(--hover-bg);
+        }
+
+        /* Sticky Columns for better usability */
+        th:nth-child(1), td:nth-child(1) { 
+            left: 0; 
+            z-index: 12; 
+            background: var(--hover-bg); 
+        }
+        td:nth-child(1) { 
+            background: var(--card-bg); 
+        }
+        
+        th:nth-child(2), td:nth-child(2) { 
+            left: 80px; 
+            z-index: 12; 
+            background: var(--hover-bg); 
+        }
+        td:nth-child(2) { 
+            left: 80px; 
+            background: var(--card-bg); 
+            font-weight: 600; 
+        }
+        
+        th:nth-child(1), td:nth-child(1), th:nth-child(2), td:nth-child(2) { 
+            position: sticky; 
+            box-shadow: 2px 0 3px rgba(0,0,0,0.05); 
+        }
+
+        /* Link Styles */
         td .file-link {
             font-weight: 500;
             color: var(--secondary-color);
@@ -172,396 +441,859 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            text-decoration: none;
+            transition: var(--transition);
         }
 
-        td .file-link:hover {
-            text-decoration: underline;
+        .file-link:hover {
+            color: var(--secondary-light);
         }
 
+        .file-link.report-link {
+            font-weight: 700;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+        }
+        
         .no-file {
-            color: #9ca3af;
+            color: var(--text-light);
             font-style: italic;
-        }
-
-        .wrap-text {
-            white-space: normal;
-            min-width: 250px;
-            max-width: 400px;
         }
 
         .egitim-info {
             font-size: 13px;
+            line-height: 1.4;
         }
 
         .egitim-info b {
             display: inline-block;
             width: 70px;
-            color: #555;
+            color: var(--primary-color);
+            font-weight: 600;
         }
 
-        .no-apps {
-            text-align: center;
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--warning-color);
+        }
+
+        .status-approved {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+        }
+
+        .status-rejected {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 6px;
+            flex-wrap: nowrap;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .modal-title {
             font-size: 18px;
-            color: #777;
-            margin: 30px;
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 8px;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
-        @media (max-width: 1024px) {
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        .modal-body {
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .pagination-info {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .pagination-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .pagination-btn {
+            padding: 8px 12px;
+            border-radius: var(--radius-md);
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            background-color: var(--hover-bg);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
             .sidebar {
-                position: static;
+                width: 80px;
+                padding: 20px 0;
+            }
+            
+            .sidebar-title, .sidebar-nav li a span, .sidebar-footer a span {
+                display: none;
+            }
+            
+            .sidebar-nav li a {
+                justify-content: center;
+                padding: 12px;
+            }
+            
+            .sidebar-nav-icon {
+                margin-right: 0;
+            }
+            
+            .main-content {
+                margin-left: 80px;
+                width: calc(100% - 80px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                bottom: 0;
+                top: auto;
                 width: 100%;
                 height: auto;
                 flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-                padding: 10px 20px;
+                justify-content: space-around;
+                padding: 12px 16px;
             }
-
-            .sidebar-nav {
-                flex-grow: 0;
+            
+            .sidebar-header, .sidebar-footer {
+                display: none;
             }
-
+            
             .sidebar-nav ul {
                 display: flex;
+                width: 100%;
+                justify-content: space-around;
+                padding: 0;
             }
-
+            
+            .sidebar-nav li {
+                flex: 1;
+                text-align: center;
+            }
+            
             .sidebar-nav li a {
-                margin: 0 5px;
+                flex-direction: column;
+                padding: 8px;
+                margin-bottom: 0;
+                font-size: 12px;
             }
-
-            .sidebar-header {
-                border: none;
-                margin: 0;
-                padding: 0;
+            
+            .sidebar-nav-icon {
+                margin-right: 0;
+                margin-bottom: 4px;
             }
-
-            .sidebar-footer {
-                border: none;
-                padding: 0;
-            }
-
+            
             .main-content {
                 margin-left: 0;
                 width: 100%;
-                padding: 20px;
+                padding: 24px 16px;
+                margin-bottom: 80px;
+            }
+            
+            .main-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+            
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .table-header {
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-start;
+            }
+            
+            .table-actions {
+                width: 100%;
+            }
+            
+            .search-input {
+                width: 100%;
+            }
+
+            .action-buttons {
+                flex-direction: column;
             }
         }
     </style>
 </head>
 
 <body>
-        <div class="dashboard-layout">
-                <aside class="sidebar">
-                        <div>
-                                <div class="sidebar-header">Aday Paneli</div>
-                                <nav class="sidebar-nav">
-                                        <ul>
-                        <li><a href="/admin" class="active"><svg xmlns="http://www.w3.org/2000/svg" width="20"
-                                    height="20" fill="currentColor" viewBox="0 0 16 16"
-                                    style="margin-right: 10px; vertical-align: -3px;">
-                                    <path
-                                        d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z" />
-                                </svg>Başvurular</a></li>
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div>
+                <div class="sidebar-header">
+                    <div class="sidebar-title">Admin Paneli</div>
+                    <button class="theme-toggle" id="themeToggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+                        </svg>
+                    </button>
+                </div>
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li>
+                            <a href="/admin" class="active">
+                                <span class="sidebar-nav-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                        <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z"/>
+                                    </svg>
+                                </span>
+                                <span>Başvurular</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="sidebar-nav-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                        <path d="M9.5 0a.5.5 0 0 1 .5.5.5.5 0 0 0 .5.5.5.5 0 0 1 .5.5V2a.5.5 0 0 1-.5.5h-5A.5.5 0 0 1 5 2v-.5a.5.5 0 0 1 .5-.5.5.5 0 0 0 .5-.5.5.5 0 0 1 .5-.5h3Z"/>
+                                        <path d="M3 2.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 0 0-1h-.5A1.5 1.5 0 0 0 2 2.5v12A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 12.5 1H12a.5.5 0 0 0 0 1h.5a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5v-12Z"/>
+                                        <path d="M10.854 7.854a.5.5 0 0 0-.708-.708L7.5 9.793 6.354 8.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3Z"/>
+                                    </svg>
+                                </span>
+                                <span>Onaylananlar</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="sidebar-nav-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                    </svg>
+                                </span>
+                                <span>Reddedilenler</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="sidebar-nav-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                        <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
+                                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                                    </svg>
+                                </span>
+                                <span>Takvim</span>
+                            </a>
+                        </li>
                     </ul>
-                                    </nav>
-                            </div>
-                        <div class="sidebar-footer"><a href="/logout">Çıkış Yap</a></div>
-                    </aside>
-                <main class="main-content">
-                        <header class="main-header">
+                </nav>
+            </div>
+            <div class="sidebar-footer">
+                <a href="/logout">
+                    <span class="sidebar-nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+                            <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+                        </svg>
+                    </span>
+                    <span>Çıkış Yap</span>
+                </a>
+            </div>
+        </aside>
+        <main class="main-content">
+            <header class="main-header">
                 <h1>Gelen Başvurular</h1>
+                <div class="header-actions">
+                    <div class="search-box">
+                        <span class="search-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                            </svg>
+                        </span>
+                        <input type="text" class="search-input" placeholder="Başvuru ara...">
+                    </div>
+                    <button class="btn btn-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+                        </svg>
+                        Filtrele
+                    </button>
+                    <button class="btn btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                        </svg>
+                        Dışa Aktar
+                    </button>
+                </div>
             </header>
-                        <%                 const renderFileLink=(path, name)=> {
-                                    if (path) {
-                                        // index.js artık tam Drive linkini kaydediyor.
-                                        return `<a href="${path}" target="_blank" class="file-link"
-                    title="${name}">${name}</a>`;
-                                    }
-                                    else { return `<span class="no-file">Yüklenmedi</span>`; }
-                                };
-                            %>
-                            <% if (applications.length> 0) { %>
-                                    <div class="table-card">
-                                            <div class="table-container">
-                                                    <table>
-                                                            <thead>
-                                                                    <tr>
-                                                                            <th>Tarih</th>
-                                        <th>Ad Soyad</th>
-                                        <th>E-posta</th>
-                                        <th>Telefon</th>
-                                        <th>Doğum Tarihi</th>
-                                        <th>Cinsiyet</th>
-                                                                            <th>Boy / Kilo</th>
-                                        <th>Göz Rengi</th>
-                                        <th>Meslek</th>
-                                        <th>Eğitim Bilgileri</th>
-                                        <th class="wrap-text">Adres</th>
-                                                                            <th class="wrap-text">Ek Notlar</th>
-                                        <th>CV</th>
-                                        <th>Fotoğraf</th>
-                                        <th>Pasaport</th>
-                                        <th>Kimlik Kartı</th>
-                                                                            <th>Sürücü Belgesi</th>
-                                        <th>Diploma/Transkript</th>
-                                        <th>Mezuniyet Belgesi</th>
-                                        <th>Mesleki Yeterlilik</th>
-                                                                            <th>Muhtelif Belgeler</th>
-                                        <th>SGK Hizmet Cetveli</th>
-                                        <th>Adli Sicil</th>
-                                        <th>Almanca Adli Sicil</th>
-                                                                            <th>Nüfus Kayıt</th>
-                                        <th>Formül A</th>
-                                        <th>Formül B</th>
-                                        <th>Hukuki Belgeler</th>
-                                                                       
-                                    </tr>
-                                                                </thead>
-                                                            <tbody>
-                                                                    <% applications.forEach(app=> { %>
-                                                                            <tr>
-                                                                                    <td>
-                                                <%= app.createdAt.toLocaleString('tr-TR', {dateStyle: 'short' ,
-                                                    timeStyle: 'short' }) %>
-                                            </td>
-                                                                                    <td style="font-weight: 500;">
-                                                <%= app.name %>
-                                            </td>
-                                                                                    <td><a
-                                                    href="mailto:<%= app.email %>" class="file-link">
-                                                    <%= app.email %>
-                                                </a></td>
-                                                                                    <td>
-                                                <%= app.telefon || '-' %>
-                                            </td>
-                                                                                    <td>
-                                                <%= app.dogumTarihi ? new
-                                                    Date(app.dogumTarihi).toLocaleDateString('tr-TR') : '-' %>
-                                            </td>
-                                                                                    <td>
-                                                <%= app.cinsiyet || '-' %>
-                                            </td>
-                                                                                    <td>
-                                                <%= (app.boy || '-' ) + ' / ' + (app.kilo || '-' ) %>
-                                            </td>
-                                                                                    <td>
-                                                <%= app.gozRengi || '-' %>
-                                            </td>
-                                                                                    <td>
-                                                <%= app.profession || '-' %>
-                                            </td>
-                                                                                    <td class="wrap-text egitim-info">
-                                                                                            <% if (app.egitim) { %>
-                                                                                                    <% if
-                                                        (app.egitim.ilkokul && app.egitim.ilkokul.okul) { %>
-                                                        <b>İlkokul:</b>
-                                                        <%= app.egitim.ilkokul.okul %> (<%= app.egitim.ilkokul.yil %>
-                                                                )<br>
-                                                                <% } %>
-                                                                                                                    <%
-                                                                        if (app.egitim.ortaokul &&
-                                                                        app.egitim.ortaokul.okul) { %> <b>Ortaokul:</b>
-                                                                        <%= app.egitim.ortaokul.okul %> (<%=
-                                                                                app.egitim.ortaokul.yil %>)<br>
-                                                                                <% } %>
-                                                                                                                       
-                                                                                                <% if (app.egitim.lise
-                                                                                        && app.egitim.lise.okul) { %>
-                                                                                        <b>Lise:</b>
-                                                                                        <%= app.egitim.lise.okul %> (<%=
-                                                                                                app.egitim.lise.yil %>
-                                                                                                )<br>
-                                                                                                <% } %>
-                                                                                                                       
-                                                                                                                       
-                                                                                                            <% if
-                                                                                                        (app.egitim.onlisans
-                                                                                                        &&
-                                                                                                        app.egitim.onlisans.okul)
-                                                                                                        { %>
-                                                                                                        <b>Önlisans:</b>
-                                                                                                        <%= app.egitim.onlisans.okul
-                                                                                                            %> (<%=
-                                                                                                                app.egitim.onlisans.yil
-                                                                                                                %>)<br>
-                                                                                                                <% } %>
-                                                                                                                       
-                                                                                                                       
-                                                                                                                       
-                                                                                                                       
-                                                                                                                       
-                                                                                                                       
-                                                                                                                       
-                                                                                                                       
-                                                                                                                       
-                                                                                                                       
-                                                                                                                       
-                                                                                                                       
-                                                                                                                    <% if
-                                                                                                                        (app.egitim.lisans
-                                                                                                                        &&
-                                                                                                                        app.egitim.lisans.okul)
-                                                                                                                        {
-                                                                                                                        %>
-                                                                                                                        <b>Lisans:</b>
-                                                                                                                        <%= app.egitim.lisans.okul
-                                                                                                                            %>
-                                                                                                                            (
-                                                                                                                            <%= app.egitim.lisans.yil
-                                                                                                                                %>
-                                                                                                                                )<br>
-                                                                                                                                <% }
-                                                                                                                                    %>
-                                                                                                                                     
-                                                                                                                                     
-                                                                                                                                     
-                                                                                                                                     
-                                                                                                                                     
-                                                                                                                                     
-                                                                                                                                     
-                                                                                                                                     
-                                                                                                                                     
-                                                                                                                                     
-                                                                                                                                     
-                                                                                                                                     
-                                                                                                                                     
-                                                                                                                                     
-                                                                                                                                     
-                                                                                                                                     
-                                                                                                                                     
-                                                                                                                                     
-                                                                                                                                     
-                                                                                                                                     
-                                                                                                                                     
-                                                                                                                                     
-                                                                                                                                     
-                                                                                                                                     
-                                                                                                                                    <% if
-                                                                                                                                        (app.egitim.doktora
-                                                                                                                                        &&
-                                                                                                                                        app.egitim.doktora.okul)
-                                                                                                                                        {
-                                                                                                                                        %>
-                                                                                                                                        <b>Doktora:</b>
-                                                                                                                                        <%= app.egitim.doktora.okul
-                                                                                                                                            %>
-                                                                                                                                            (
-                                                                                                                                            <%= app.egitim.doktora.yil
-                                                                                                                                                %>
-                                                                                                                                                )
-                                                                                                                                                <% }
-                                                                                                                                                    %>
-                                                                                                                                                     
-                                                                                                                                                     
-                                                                                                                                                     
-                                                                                                                                                     
-                                                                                                                                                     
-                                                                                                                                                     
-                                                                                                                                                     
-                                                                                                                                                     
-                                                                                                                                                     
-                                                                                                                                                     
-                                                                                                                                                     
-                                                                                                                                                     
-                                                                                                                                                     
-                                                                                                                                                     
-                                                                                                                                                     
-                                                                                                                                                     
-                                                                                                                                                     
-                                                                                                                                                     
-                                                                                                                                                     
-                                                                                                                                                     
-                                                                                                                                                     
-                                                                                                                                                     
-                                                                                                                                                    <% } else
-                                                                                                                                                        {
-                                                                                                                                                        %>
-                                                                                                                                                        -
-                                                                                                                                                        <% }
-                                                                                                                                                            %>
-                                                                                                                                                             
-                                                                                                                                                             
-                                                                                                                                                             
-                                                                                                                                                             
-                                                                                                                                                             
-                                                                                                                                                             
-                                                                                                                                                             
-                                                                                                                                                             
-                                                                                                                                                             
-                                                                                                                                                             
-                                                                                                                                                             
-                                                                                                                                                             
-                                                                                                                                                             
-                                                                                                                                                             
-                                                                                                                                                             
-                                                                                                                                                             
-                                                                                                                                                             
-                                                                                                                                                             
-                                                                                                                                                             
-                                                                                                                                                             
-                                            </td>
-                                                                                    <td class="wrap-text">
-                                                <%= app.adres || '-' %>
-                                            </td>
-                                                                                    <td class="wrap-text">
-                                                <%= app.message || '-' %>
-                                            </td>
-                                                                                    <td><%- renderFileLink(app.cvPath,
-                                                    app.cvOriginalName) %></td>
-                                                                                    <td><%-
-                                                    renderFileLink(app.fotografPath, app.fotografOriginalName) %></td>
-                                                                                    <td><%-
-                                                    renderFileLink(app.pasaportPath, app.pasaportOriginalName) %></td>
-                                                                                    <td><%-
-                                                    renderFileLink(app.kimlikKartiPath, app.kimlikKartiOriginalName) %>
-                                            </td>
-                                                                                    <td><%-
-                                                    renderFileLink(app.surucuBelgesiPath, app.surucuBelgesiOriginalName)
-                                                    %></td>
-                                                                                    <td><%-
-                                                    renderFileLink(app.diplomaTranskriptPath,
-                                                    app.diplomaTranskriptOriginalName) %></td>
-                                                                                    <td><%-
-                                                    renderFileLink(app.mezuniyetBelgesiPath,
-                                                    app.mezuniyetBelgesiOriginalName) %></td>
-                                                                                    <td><%-
-                                                    renderFileLink(app.meslekiYeterlilikPath,
-                                                    app.meslekiYeterlilikOriginalName) %></td>
-                                                                                    <td><%-
-                                                    renderFileLink(app.muhtelifBelgelerPath,
-                                                    app.muhtelifBelgelerOriginalName) %></td>
-                                                                                    <td><%-
-                                                    renderFileLink(app.sgkHizmetCetveliPath,
-                                                    app.sgkHizmetCetveliOriginalName) %></td>
-                                                                                    <td><%-
-                                                    renderFileLink(app.adliSicilPath, app.adliSicilOriginalName) %></td>
-                                                                                    <td><%-
-                                                    renderFileLink(app.almancaAdliSicilPath,
-                                                    app.almancaAdliSicilOriginalName) %></td>
-                                                                                    <td><%-
-                                                    renderFileLink(app.nufusKayitPath, app.nufusKayitOriginalName) %>
-                                            </td>
-                                                                                    <td><%-
-                                                    renderFileLink(app.formulAPath, app.formulAOriginalName) %></td>
-                                                                                    <td><%-
-                                                    renderFileLink(app.formulBPath, app.formulBOriginalName) %></td>
-                                                                                    <td><%-
-                                                    renderFileLink(app.hukukiBelgelerPath,
-                                                    app.hukukiBelgelerOriginalName) %></td>
-                                                                                </tr>
-                                                                        <% }) %>
-                                                                        </tbody>
-                                                        </table>
-                                                </div>
-                                        </div>
-                                <% } else { %>
-                                        <p class="no-apps">Henüz hiç başvuru alınmamış.</p>
-                                    <% } %>
-                                    </main>
-            </div>
-</body>
 
+            <div class="stats-container">
+                <div class="stat-card" data-filter="all">
+                    <div class="stat-value"><%= applications.length %></div>
+                    <div class="stat-label">Toplam Başvuru</div>
+                </div>
+                <div class="stat-card" data-filter="pending">
+                    <div class="stat-value"><%= applications.filter(app => app.status === 'pending').length %></div>
+                    <div class="stat-label">Bekleyen</div>
+                </div>
+                <div class="stat-card" data-filter="approved">
+                    <div class="stat-value"><%= applications.filter(app => app.status === 'approved').length %></div>
+                    <div class="stat-label">Onaylanan</div>
+                </div>
+                <div class="stat-card" data-filter="rejected">
+                    <div class="stat-value"><%= applications.filter(app => app.status === 'rejected').length %></div>
+                    <div class="stat-label">Reddedilen</div>
+                </div>
+            </div>
+
+            <% 
+                // Dosya linklerini görüntüleyen helper fonksiyon
+                const renderFileLink = (path, name) => {
+                    if (path) {
+                        // Class'ı, Rapor linki için özel olarak ayarlıyoruz
+                        const linkClass = name.includes('RAPORU') ? 'file-link report-link' : 'file-link';
+                        return `<a href="${path}" target="_blank" class="${linkClass}" title="${name}">${name}</a>`;
+                    }
+                    else { return `<span class="no-file">Yüklenmedi</span>`; }
+                };
+            %>
+            <% if (applications.length > 0) { %>
+                <div class="table-card">
+                    <div class="table-header">
+                        <div class="table-title">Başvuru Listesi</div>
+                        <div class="table-actions">
+                            <select class="search-input" style="width: 160px;" id="statusFilter">
+                                <option value="">Durum: Tümü</option>
+                                <option value="pending">Bekleyen</option>
+                                <option value="approved">Onaylanan</option>
+                                <option value="rejected">Reddedilen</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="min-width: 80px;">Tarih</th> 
+                                    <th style="min-width: 250px;">Ad Soyad</th> 
+                                    <th style="min-width: 150px;">E-posta</th>
+                                    <th>Telefon</th>
+                                    <th>Doğum Tarihi</th>
+                                    <th>Cinsiyet</th>
+                                    <th>Boy / Kilo</th>
+                                    <th>Göz Rengi</th>
+                                    <th>Meslek</th>
+                                    <th style="min-width: 350px;">Eğitim Bilgileri</th>
+                                    <th class="wrap-text">Adres</th>
+                                    <th class="wrap-text" style="min-width: 300px;">Ek Notlar</th>
+                                    <th style="min-width: 100px;">Durum</th>
+                                    <th style="min-width: 150px;">İşlemler</th>
+                                    <th style="min-width: 180px;">RAPOR ÖZETİ</th> 
+                                    <th>CV</th>
+                                    <th>Fotoğraf</th>
+                                    <th>Pasaport</th>
+                                    <th>Kimlik Kartı</th>
+                                    <th>Sürücü Belgesi</th>
+                                    <th>Diploma/Transkript</th>
+                                    <th>Mezuniyet Belgesi</th>
+                                    <th>Mesleki Yeterlilik</th>
+                                    <th>Muhtelif Belgeler</th>
+                                    <th>SGK Hizmet Cetveli</th>
+                                    <th>Adli Sicil</th>
+                                    <th>Almanca Adli Sicil</th>
+                                    <th>Nüfus Kayıt</th>
+                                    <th>Formül A</th>
+                                    <th>Formül B</th>
+                                    <th>Hukuki Belgeler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% applications.forEach((app, index) => { %>
+                                    <tr data-status="<%= app.status || 'pending' %>" data-id="<%= app.id || index %>">
+                                        <td>
+                                            <%= app.createdAt.toLocaleString('tr-TR', { dateStyle: 'short' , timeStyle: 'short' }) %>
+                                        </td>
+                                        <td style="font-weight: 500;">
+                                            <%= app.name %>
+                                        </td>
+                                        <td><a href="mailto:<%= app.email %>" class="file-link">
+                                                <%= app.email %>
+                                            </a></td>
+                                        <td>
+                                            <%= app.telefon || '-' %>
+                                        </td>
+                                        <td>
+                                            <%= app.dogumTarihi ? new Date(app.dogumTarihi).toLocaleDateString('tr-TR') : '-' %>
+                                        </td>
+                                        <td>
+                                            <%= app.cinsiyet || '-' %>
+                                        </td>
+                                        <td>
+                                            <%= (app.boy || '-' ) + ' / ' + (app.kilo || '-' ) %>
+                                        </td>
+                                        <td>
+                                            <%= app.gozRengi || '-' %>
+                                        </td>
+                                        <td>
+                                            <%= app.profession || '-' %>
+                                        </td>
+                                        <td class="wrap-text egitim-info">
+                                            <% if (app.egitim) { %>
+                                                <% 
+                                                    // Egitim seviyeleri listesi
+                                                    const seviyeler = ['ilkokul', 'ortaokul', 'lise', 'onlisans', 'lisans', 'doktora'];
+                                                    const capitalizedSeviye = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+                                                %>
+                                                <% seviyeler.forEach(seviye => { %>
+                                                    <% if (app.egitim[seviye] && app.egitim[seviye].okul) { %>
+                                                        <b><%= capitalizedSeviye(seviye) %>:</b>
+                                                        <%= app.egitim[seviye].okul %> (<%= app.egitim[seviye].yil %>)<br>
+                                                    <% } %>
+                                                <% }); %>
+                                            <% } else { %> - <% } %>
+                                        </td>
+                                        <td class="wrap-text">
+                                            <%= app.adres || '-' %>
+                                        </td>
+                                        <td class="wrap-text">
+                                            <%= app.message || '-' %>
+                                        </td>
+                                        <td>
+                                            <span class="status-badge <%= (app.status || 'pending') === 'pending' ? 'status-pending' : (app.status || 'pending') === 'approved' ? 'status-approved' : 'status-rejected' %>">
+                                                <%= (app.status || 'pending') === 'pending' ? 'Bekliyor' : (app.status || 'pending') === 'approved' ? 'Onaylandı' : 'Reddedildi' %>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="action-buttons">
+                                                <% if ((app.status || 'pending') === 'pending') { %>
+                                                    <button class="btn btn-success btn-sm approve-btn" data-id="<%= app.id || index %>">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+                                                            <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
+                                                        </svg>
+                                                        Onayla
+                                                    </button>
+                                                    <button class="btn btn-danger btn-sm reject-btn" data-id="<%= app.id || index %>">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+                                                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                                        </svg>
+                                                        Reddet
+                                                    </button>
+                                                <% } else { %>
+                                                    <button class="btn btn-secondary btn-sm change-status-btn" data-id="<%= app.id || index %>">
+                                                        Durumu Değiştir
+                                                    </button>
+                                                <% } %>
+                                            </div>
+                                        </td>
+                                        <td><%- renderFileLink(app.raporPath, 'Bilgi Raporu.txt') %></td> 
+                                        
+                                        <td><%- renderFileLink(app.cvPath, app.cvOriginalName) %></td>
+                                        <td><%- renderFileLink(app.fotografPath, app.fotografOriginalName) %></td>
+                                        <td><%- renderFileLink(app.pasaportPath, app.pasaportOriginalName) %></td>
+                                        <td><%- renderFileLink(app.kimlikKartiPath, app.kimlikKartiOriginalName) %></td>
+                                        <td><%- renderFileLink(app.surucuBelgesiPath, app.surucuBelgesiOriginalName) %></td>
+                                        <td><%- renderFileLink(app.diplomaTranskriptPath, app.diplomaTranskriptOriginalName) %></td>
+                                        <td><%- renderFileLink(app.mezuniyetBelgesiPath, app.mezuniyetBelgesiOriginalName) %></td>
+                                        <td><%- renderFileLink(app.meslekiYeterlilikPath, app.meslekiYeterlilikOriginalName) %></td>
+                                        <td><%- renderFileLink(app.muhtelifBelgelerPath, app.muhtelifBelgelerOriginalName) %></td>
+                                        <td><%- renderFileLink(app.sgkHizmetCetveliPath, app.sgkHizmetCetveliOriginalName) %></td>
+                                        <td><%- renderFileLink(app.adliSicilPath, app.adliSicilOriginalName) %></td>
+                                        <td><%- renderFileLink(app.almancaAdliSicilPath, app.almancaAdliSicilOriginalName) %></td>
+                                        <td><%- renderFileLink(app.nufusKayitPath, app.nufusKayitOriginalName) %></td>
+                                        <td><%- renderFileLink(app.formulAPath, app.formulAOriginalName) %></td>
+                                        <td><%- renderFileLink(app.formulBPath, app.formulBOriginalName) %></td>
+                                        <td><%- renderFileLink(app.hukukiBelgelerPath, app.hukukiBelgelerOriginalName) %></td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination">
+                        <div class="pagination-info">1-10 / <%= applications.length %> başvuru</div>
+                        <div class="pagination-controls">
+                            <button class="pagination-btn" disabled>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                                </svg>
+                            </button>
+                            <button class="pagination-btn active">1</button>
+                            <button class="pagination-btn">2</button>
+                            <button class="pagination-btn">3</button>
+                            <button class="pagination-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            <% } else { %>
+                <div class="table-card" style="text-align: center; padding: 60px 20px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" viewBox="0 0 16 16" style="color: var(--text-light); margin-bottom: 16px;">
+                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                        <path d="M3 6.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5z"/>
+                    </svg>
+                    <h3 style="color: var(--text-secondary); margin-bottom: 8px;">Henüz hiç başvuru alınmamış</h3>
+                    <p style="color: var(--text-light);">Yeni başvurular burada görünecek.</p>
+                </div>
+            <% } %>
+        </main>
+    </div>
+
+    <!-- Onay Modal -->
+    <div class="modal" id="approveModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Başvuruyu Onayla</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong id="approveApplicantName"></strong> isimli başvuruyu onaylamak istediğinizden emin misiniz?</p>
+                <div class="form-group">
+                    <label class="form-label">Onay Notu (Opsiyonel):</label>
+                    <textarea class="form-control" id="approveNote" placeholder="Onay için not ekleyebilirsiniz..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelApprove">İptal</button>
+                <button class="btn btn-success" id="confirmApprove">Onayla</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reddet Modal -->
+    <div class="modal" id="rejectModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Başvuruyu Reddet</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong id="rejectApplicantName"></strong> isimli başvuruyu reddetmek istediğinizden emin misiniz?</p>
+                <div class="form-group">
+                    <label class="form-label">Reddetme Nedeni (Zorunlu):</label>
+                    <textarea class="form-control" id="rejectReason" placeholder="Reddetme nedenini belirtiniz..." required></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelReject">İptal</button>
+                <button class="btn btn-danger" id="confirmReject">Reddet</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dark/Light mode toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        // Check for saved theme preference or respect OS preference
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
+        
+        if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+            body.classList.add('dark-mode');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            // Save the current theme to localStorage
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // Search functionality
+        const searchInput = document.querySelector('.search-input');
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const tableRows = document.querySelectorAll('tbody tr');
+            
+            tableRows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // Status filter functionality
+        const statusFilter = document.getElementById('statusFilter');
+        statusFilter.addEventListener('change', function() {
+            const status = this.value;
+            const tableRows = document.querySelectorAll('tbody tr');
+            
+            tableRows.forEach(row => {
+                const rowStatus = row.getAttribute('data-status');
+                
+                if (status === '' || rowStatus === status) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // Stat cards filter functionality
+        const statCards = document.querySelectorAll('.stat-card');
+        statCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const filter = this.getAttribute('data-filter');
+                
+                // Update active state
+                statCards.forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Filter table
+                const tableRows = document.querySelectorAll('tbody tr');
+                tableRows.forEach(row => {
+                    if (filter === 'all') {
+                        row.style.display = '';
+                    } else {
+                        const rowStatus = row.getAttribute('data-status');
+                        if (rowStatus === filter) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    }
+                });
+                
+                // Update dropdown
+                statusFilter.value = filter === 'all' ? '' : filter;
+            });
+        });
+
+        // Modal functionality
+        const modals = document.querySelectorAll('.modal');
+        const approveModal = document.getElementById('approveModal');
+        const rejectModal = document.getElementById('rejectModal');
+        
+        let currentApplicationId = null;
+        let currentApplicationName = null;
+
+        // Open approve modal
+        document.querySelectorAll('.approve-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const row = this.closest('tr');
+                currentApplicationId = this.getAttribute('data-id');
+                currentApplicationName = row.querySelector('td:nth-child(2)').textContent;
+                
+                document.getElementById('approveApplicantName').textContent = currentApplicationName;
+                approveModal.style.display = 'flex';
+            });
+        });
+
+        // Open reject modal
+        document.querySelectorAll('.reject-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const row = this.closest('tr');
+                currentApplicationId = this.getAttribute('data-id');
+                currentApplicationName = row.querySelector('td:nth-child(2)').textContent;
+                
+                document.getElementById('rejectApplicantName').textContent = currentApplicationName;
+                rejectModal.style.display = 'flex';
+            });
+        });
+
+        // Close modals
+        document.querySelectorAll('.modal-close, .btn-secondary').forEach(btn => {
+            btn.addEventListener('click', function() {
+                modals.forEach(modal => modal.style.display = 'none');
+            });
+        });
+
+        // Confirm approve
+        document.getElementById('confirmApprove').addEventListener('click', function() {
+            if (currentApplicationId) {
+                // Burada backend'e onay isteği gönderilecek
+                console.log('Onaylanan başvuru ID:', currentApplicationId);
+                
+                // UI güncelleme
+                const row = document.querySelector(`tr[data-id="${currentApplicationId}"]`);
+                if (row) {
+                    const statusCell = row.querySelector('.status-badge');
+                    statusCell.textContent = 'Onaylandı';
+                    statusCell.className = 'status-badge status-approved';
+                    row.setAttribute('data-status', 'approved');
+                    
+                    // Action butonlarını güncelle
+                    const actionCell = row.querySelector('.action-buttons');
+                    actionCell.innerHTML = '<button class="btn btn-secondary btn-sm change-status-btn">Durumu Değiştir</button>';
+                }
+                
+                approveModal.style.display = 'none';
+                
+                // Başarı mesajı
+                alert('Başvuru başarıyla onaylandı!');
+            }
+        });
+
+        // Confirm reject
+        document.getElementById('confirmReject').addEventListener('click', function() {
+            const rejectReason = document.getElementById('rejectReason').value;
+            
+            if (!rejectReason.trim()) {
+                alert('Lütfen reddetme nedenini belirtiniz.');
+                return;
+            }
+            
+            if (currentApplicationId) {
+                // Burada backend'e reddetme isteği gönderilecek
+                console.log('Reddedilen başvuru ID:', currentApplicationId);
+                console.log('Reddetme nedeni:', rejectReason);
+                
+                // UI güncelleme
+                const row = document.querySelector(`tr[data-id="${currentApplicationId}"]`);
+                if (row) {
+                    const statusCell = row.querySelector('.status-badge');
+                    statusCell.textContent = 'Reddedildi';
+                    statusCell.className = 'status-badge status-rejected';
+                    row.setAttribute('data-status', 'rejected');
+                    
+                    // Action butonlarını güncelle
+                    const actionCell = row.querySelector('.action-buttons');
+                    actionCell.innerHTML = '<button class="btn btn-secondary btn-sm change-status-btn">Durumu Değiştir</button>';
+                }
+                
+                rejectModal.style.display = 'none';
+                
+                // Başarı mesajı
+                alert('Başvuru başarıyla reddedildi!');
+            }
+        });
+
+        // Close modal when clicking outside
+        modals.forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
 </html>
