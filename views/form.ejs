@@ -2,12 +2,10 @@
 <html lang="tr">
 
 <head>
-       
     <meta charset="UTF-8">
-       
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Aday Başvuru Portalı</title>
-        <style>
+    <title>Aday Başvuru Portalı</title>
+    <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
         :root {
@@ -20,12 +18,16 @@
             --font-family: 'Inter', -apple-system, sans-serif;
         }
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: var(--font-family);
             background-color: var(--light-gray);
             background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
             margin: 0;
-            padding: 40px 20px;
+            padding: 20px 10px;
             color: var(--dark-gray);
             line-height: 1.6;
             display: flex;
@@ -46,7 +48,7 @@
         }
 
         .form-header {
-            padding: 32px 40px;
+            padding: 24px 20px;
             background-color: var(--primary-color);
             color: #fff;
             border-bottom: 4px solid var(--secondary-color);
@@ -54,22 +56,25 @@
 
         .form-header h1 {
             margin: 0;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 700;
+            text-align: center;
         }
 
         .form-header p {
-            margin: 5px 0 0 0;
-            font-size: 16px;
+            margin: 10px 0 0 0;
+            font-size: 14px;
             opacity: 0.9;
+            text-align: center;
         }
 
         .stepper-header {
             display: flex;
-            justify-content: space-around;
-            padding: 24px 32px;
+            justify-content: space-between;
+            padding: 16px 10px;
             background-color: #fdfdfd;
             border-bottom: 1px solid var(--border-color);
+            position: relative;
         }
 
         .step {
@@ -78,11 +83,12 @@
             align-items: center;
             position: relative;
             flex-grow: 1;
+            max-width: 33.33%;
         }
 
         .step .step-circle {
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             background-color: #e9ecef;
             color: #6c757d;
@@ -90,18 +96,19 @@
             justify-content: center;
             align-items: center;
             font-weight: 700;
-            font-size: 16px;
+            font-size: 14px;
             border: 2px solid #e9ecef;
             transition: all 0.4s ease;
             z-index: 2;
         }
 
         .step .step-title {
-            margin-top: 10px;
-            font-size: 14px;
+            margin-top: 8px;
+            font-size: 12px;
             font-weight: 500;
             color: #6c757d;
             transition: all 0.4s ease;
+            text-align: center;
         }
 
         .step.active .step-circle {
@@ -128,13 +135,13 @@
         .step:not(:last-child)::after {
             content: '';
             position: absolute;
-            top: 19px;
+            top: 16px;
             left: 50%;
             width: 100%;
             height: 2px;
             background-color: #e9ecef;
             z-index: 1;
-            transform: translateX(18px);
+            transform: translateX(16px);
         }
 
         .step.completed::after {
@@ -142,7 +149,7 @@
         }
 
         form {
-            padding: 32px 40px 40px 40px;
+            padding: 20px 15px;
         }
 
         .form-step {
@@ -159,7 +166,6 @@
                 opacity: 0;
                 transform: translateY(10px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -169,16 +175,17 @@
         .form-section {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 24px;
+            gap: 16px;
+            margin-bottom: 20px;
         }
 
         .form-section-title {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
             color: var(--primary-color);
             border-bottom: 2px solid var(--secondary-color);
-            padding-bottom: 10px;
-            margin-bottom: 8px;
+            padding-bottom: 8px;
+            margin-bottom: 16px;
         }
 
         .form-group {
@@ -188,14 +195,14 @@
 
         .form-group label {
             font-weight: 600;
-            margin-bottom: 8px;
-            font-size: 15px;
+            margin-bottom: 6px;
+            font-size: 14px;
         }
 
         .form-group label .optional {
             font-weight: 400;
             color: #777;
-            font-size: 13px;
+            font-size: 12px;
         }
 
         .form-group label .required {
@@ -211,7 +218,7 @@
         select,
         textarea {
             width: 100%;
-            padding: 12px 16px;
+            padding: 12px 14px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             font-size: 16px;
@@ -238,7 +245,7 @@
             appearance: none;
             background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236c757d%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-13%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2013l128%20128c3.6%203.6%207.8%205.4%2013%205.4s9.4-1.8%2013-5.4l128-128c3.6-3.6%205.4-7.8%205.4-13%200-4.9-1.8-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E');
             background-repeat: no-repeat;
-            background-position: right 16px center;
+            background-position: right 14px center;
             background-size: 10px;
         }
 
@@ -255,23 +262,27 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 16px;
+            overflow-x: auto;
+            display: block;
         }
 
         .egitim-table th,
         .egitim-table td {
-            padding: 12px 14px;
+            padding: 10px 12px;
             border: 1px solid var(--border-color);
             text-align: left;
+            white-space: nowrap;
         }
 
         .egitim-table th {
             background-color: var(--light-gray);
             font-weight: 600;
+            font-size: 14px;
         }
 
         .egitim-table td:first-child {
             font-weight: 500;
-            width: 120px;
+            width: 100px;
         }
 
         .egitim-table input[type="text"] {
@@ -299,7 +310,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 16px;
+            padding: 12px 14px;
             border: 2px dashed var(--border-color);
             border-radius: 8px;
             background-color: var(--light-gray);
@@ -324,9 +335,9 @@
         .file-button {
             background-color: var(--secondary-color);
             color: white;
-            padding: 6px 14px;
+            padding: 6px 12px;
             border-radius: 6px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
             white-space: nowrap;
         }
@@ -334,14 +345,14 @@
         .form-navigation {
             display: flex;
             justify-content: space-between;
-            margin-top: 32px;
+            margin-top: 24px;
             border-top: 1px solid var(--border-color);
-            padding-top: 24px;
+            padding-top: 20px;
         }
 
         .nav-button,
         .submit-button {
-            padding: 12px 28px;
+            padding: 12px 20px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
@@ -382,291 +393,494 @@
 
         .error-message {
             color: #d93025;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
-            margin-top: 8px;
+            margin-top: 6px;
             display: none;
         }
 
-        @media (max-width: 768px) {
+        /* Tablet Styles */
+        @media (min-width: 768px) {
             body {
-                padding: 10px 5px;
+                padding: 30px 15px;
             }
-
+            
             .form-header {
-                padding: 24px 20px;
+                padding: 28px 30px;
             }
-
+            
             .form-header h1 {
+                font-size: 26px;
+            }
+            
+            .form-header p {
+                font-size: 15px;
+            }
+            
+            .stepper-header {
+                padding: 20px 25px;
+            }
+            
+            .step .step-circle {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+            
+            .step .step-title {
+                font-size: 13px;
+            }
+            
+            form {
+                padding: 25px 30px;
+            }
+            
+            .form-section {
+                gap: 20px;
+            }
+            
+            .form-section-title {
                 font-size: 22px;
             }
-
-            form {
-                padding: 20px 15px;
+            
+            .form-group label {
+                font-size: 15px;
             }
+            
+            .egitim-table {
+                display: table;
+            }
+            
+            .form-navigation {
+                flex-direction: row;
+            }
+        }
 
+        /* Desktop Styles */
+        @media (min-width: 992px) {
+            .form-header {
+                padding: 32px 40px;
+            }
+            
+            .form-header h1 {
+                font-size: 28px;
+            }
+            
+            .form-header p {
+                font-size: 16px;
+            }
+            
             .stepper-header {
-                padding: 15px;
+                padding: 24px 32px;
             }
-
+            
             .step .step-title {
-                font-size: 11px;
+                font-size: 14px;
             }
+            
+            form {
+                padding: 32px 40px 40px 40px;
+            }
+            
+            .form-section {
+                gap: 24px;
+            }
+            
+            .form-section-title {
+                font-size: 22px;
+            }
+            
+            .form-group label {
+                font-size: 15px;
+            }
+            
+            .nav-button,
+            .submit-button {
+                padding: 12px 28px;
+            }
+        }
 
+        /* Responsive Grid Layouts */
+        @media (min-width: 576px) {
+            .form-section.grid-2 {
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+        }
+
+        /* Mobile-specific adjustments */
+        @media (max-width: 575px) {
             .form-navigation {
                 flex-direction: column-reverse;
-                gap: 15px;
+                gap: 12px;
             }
-
+            
             .nav-button,
             .submit-button {
                 width: 100%;
+            }
+            
+            .egitim-table {
+                font-size: 14px;
+            }
+            
+            .egitim-table th,
+            .egitim-table td {
+                padding: 8px 10px;
+            }
+            
+            .file-input-display {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            .file-button {
+                align-self: flex-end;
+            }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 400px) {
+            .step .step-title {
+                font-size: 10px;
+            }
+            
+            .form-header h1 {
+                font-size: 22px;
+            }
+            
+            .form-header p {
+                font-size: 13px;
+            }
+            
+            .form-section-title {
+                font-size: 18px;
             }
         }
     </style>
 </head>
 
 <body>
-        <div class="container">
-                <div class="form-header">
-                        <h1>Aday Başvuru Portalı</h1>
-                        <p>Lütfen bilgilerinizi 3 adımda eksiksiz olarak doldurun.</p>
-                    </div>
-                <div class="stepper-header">
-                        <div class="step active" data-step="1">
+    <div class="container">
+        <div class="form-header">
+            <h1>Aday Başvuru Portalı</h1>
+            <p>Lütfen bilgilerinizi 3 adımda eksiksiz olarak doldurun.</p>
+        </div>
+        <div class="stepper-header">
+            <div class="step active" data-step="1">
                 <div class="step-circle">1</div>
                 <div class="step-title">Kişisel Bilgiler</div>
             </div>
-                        <div class="step" data-step="2">
+            <div class="step" data-step="2">
                 <div class="step-circle">2</div>
                 <div class="step-title">Meslek & Eğitim</div>
             </div>
-                        <div class="step" data-step="3">
+            <div class="step" data-step="3">
                 <div class="step-circle">3</div>
                 <div class="step-title">Gerekli Belgeler</div>
             </div>
-                    </div>
-                <form action="/submit" method="POST" enctype="multipart/form-data" id="multiStepForm">
-                        <div id="step-1" class="form-step active">
-                                <div class="form-section-title">Kişisel Bilgiler</div>
-                                <div class="form-section" style="margin-bottom: 24px;">
-                                        <div class="form-group"><label for="name">Ad Soyad <span
-                                class="required">*</span></label><input type="text" id="name" name="name" required><span
-                            class="error-message">Bu alan zorunludur.</span></div>
-                                        <div class="form-group"><label for="email">E-posta <span
-                                class="required">*</span></label><input type="email" id="email" name="email"
-                            required><span class="error-message">Geçerli bir e-posta girin.</span></div>
-                                    </div>
-                                <div class="form-section" style="grid-template-columns: 1fr 1fr; gap: 20px 24px;">
-                                        <div class="form-group"><label for="telefon">Telefon Numarası</label><input
-                            type="tel" id="telefon" name="telefon" placeholder="+90 555 123 4567"></div>
-                                        <div class="form-group"><label for="cinsiyet">Cinsiyet</label><select
-                            id="cinsiyet" name="cinsiyet">
+        </div>
+        <form action="/submit" method="POST" enctype="multipart/form-data" id="multiStepForm">
+            <div id="step-1" class="form-step active">
+                <div class="form-section-title">Kişisel Bilgiler</div>
+                <div class="form-section" style="margin-bottom: 24px;">
+                    <div class="form-group">
+                        <label for="name">Ad Soyad <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" required>
+                        <span class="error-message">Bu alan zorunludur.</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">E-posta <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required>
+                        <span class="error-message">Geçerli bir e-posta girin.</span>
+                    </div>
+                </div>
+                <div class="form-section grid-2">
+                    <div class="form-group">
+                        <label for="telefon">Telefon Numarası</label>
+                        <input type="tel" id="telefon" name="telefon" placeholder="+90 555 123 4567">
+                    </div>
+                    <div class="form-group">
+                        <label for="cinsiyet">Cinsiyet</label>
+                        <select id="cinsiyet" name="cinsiyet">
                             <option value="">Seçiniz...</option>
                             <option value="Erkek">Erkek</option>
                             <option value="Kadın">Kadın</option>
                             <option value="Diğer">Diğer</option>
-                        </select></div>
-                                        <div class="form-group"><label for="dogumTarihi">Doğum Tarihi</label><input
-                            type="date" id="dogumTarihi" name="dogumTarihi"></div>
-                                        <div class="form-group"><label for="gozRengi">Göz Rengi</label><input
-                            type="text" id="gozRengi" name="gozRengi" placeholder="Örn: Kahverengi"></div>
-                                        <div class="form-group"><label for="boy">Boy</label><input type="text" id="boy"
-                            name="boy" placeholder="Örn: 180 cm"></div>
-                                        <div class="form-group"><label for="kilo">Kilo</label><input type="text"
-                            id="kilo" name="kilo" placeholder="Örn: 75 kg"></div>
-                                    </div>
-                                <div class="form-section" style="margin-top: 24px;">
-                                        <div class="form-group"><label for="adres">Yerleşim Yeri Adresi
-                            (İkametgah)</label><textarea id="adres" name="adres" rows="3"
-                            placeholder="Açık adresinizi yazınız..."></textarea></div>
-                                    </div>
-                                <div class="form-navigation">
-                    <div></div><button type="button" class="nav-button next" onclick="nextStep(1)">İleri &rarr;</button>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="dogumTarihi">Doğum Tarihi</label>
+                        <input type="date" id="dogumTarihi" name="dogumTarihi">
+                    </div>
+                    <div class="form-group">
+                        <label for="gozRengi">Göz Rengi</label>
+                        <input type="text" id="gozRengi" name="gozRengi" placeholder="Örn: Kahverengi">
+                    </div>
+                    <div class="form-group">
+                        <label for="boy">Boy</label>
+                        <input type="text" id="boy" name="boy" placeholder="Örn: 180 cm">
+                    </div>
+                    <div class="form-group">
+                        <label for="kilo">Kilo</label>
+                        <input type="text" id="kilo" name="kilo" placeholder="Örn: 75 kg">
+                    </div>
                 </div>
-                            </div>
-                        <div id="step-2" class="form-step">
-                                <div class="form-section-title">Meslek Bilgileri</div>
-                                <div class="form-section">
-                    <div class="form-group"><label for="profession">Mesleğiniz / Uzmanlık Alanınız</label><input
-                            type="text" id="profession" name="profession"
-                            placeholder="Örn: Kamyon Şoförü, Yazılım Geliştirici, Hemşire..."></div>
+                <div class="form-section" style="margin-top: 24px;">
+                    <div class="form-group">
+                        <label for="adres">Yerleşim Yeri Adresi (İkametgah)</label>
+                        <textarea id="adres" name="adres" rows="3" placeholder="Açık adresinizi yazınız..."></textarea>
+                    </div>
                 </div>
-                                <div class="form-section-title" style="margin-top: 30px;">Eğitim Bilgileri</div>
-                                <table class="egitim-table">
-                                        <thead>
+                <div class="form-navigation">
+                    <div></div>
+                    <button type="button" class="nav-button next" onclick="nextStep(1)">İleri &rarr;</button>
+                </div>
+            </div>
+            <div id="step-2" class="form-step">
+                <div class="form-section-title">Meslek Bilgileri</div>
+                <div class="form-section">
+                    <div class="form-group">
+                        <label for="profession">Mesleğiniz / Uzmanlık Alanınız</label>
+                        <input type="text" id="profession" name="profession" placeholder="Örn: Kamyon Şoförü, Yazılım Geliştirici, Hemşire...">
+                    </div>
+                </div>
+                <div class="form-section-title" style="margin-top: 30px;">Eğitim Bilgileri</div>
+                <table class="egitim-table">
+                    <thead>
                         <tr>
                             <th>Seviye</th>
                             <th>Okul Adı</th>
                             <th>Mezuniyet Yılı</th>
                         </tr>
                     </thead>
-                                        <tbody>
-                                                <tr>
+                    <tbody>
+                        <tr>
                             <td>İlkokul</td>
                             <td><input type="text" name="egitim[ilkokul][okul]"></td>
                             <td><input type="text" name="egitim[ilkokul][yil]" maxlength="4"></td>
                         </tr>
-                                                <tr>
+                        <tr>
                             <td>Ortaokul</td>
                             <td><input type="text" name="egitim[ortaokul][okul]"></td>
                             <td><input type="text" name="egitim[ortaokul][yil]" maxlength="4"></td>
                         </tr>
-                                                <tr>
+                        <tr>
                             <td>Lise</td>
                             <td><input type="text" name="egitim[lise][okul]"></td>
                             <td><input type="text" name="egitim[lise][yil]" maxlength="4"></td>
                         </tr>
-                                                <tr>
+                        <tr>
                             <td>Önlisans</td>
                             <td><input type="text" name="egitim[onlisans][okul]"></td>
                             <td><input type="text" name="egitim[onlisans][yil]" maxlength="4"></td>
                         </tr>
-                                                <tr>
+                        <tr>
                             <td>Lisans</td>
                             <td><input type="text" name="egitim[lisans][okul]"></td>
                             <td><input type="text" name="egitim[lisans][yil]" maxlength="4"></td>
                         </tr>
-                                                <tr>
+                        <tr>
                             <td>Doktora</td>
                             <td><input type="text" name="egitim[doktora][okul]"></td>
                             <td><input type="text" name="egitim[doktora][yil]" maxlength="4"></td>
                         </tr>
-                                            </tbody>
-                                    </table>
-                                <div class="form-navigation"><button type="button" class="nav-button prev"
-                        onclick="prevStep(2)">&larr; Geri</button><button type="button" class="nav-button next"
-                        onclick="nextStep(2)">İleri &rarr;</button></div>
-                            </div>
-                        <div id="step-3" class="form-step">
-                                <div class="form-section-title">Gerekli Belgeler</div>
-                                <div class="form-section">
-                    <div class="form-group"><label for="cv">CV (Özgeçmiş)</label>
-                        <div class="file-input-wrapper"><span class="file-input-display"><span class="file-name">Dosya
-                                    seçilmedi...</span><span class="file-button">Gözat</span></span><input type="file"
-                                id="cv" name="cv" class="file-input-real" onchange="updateFileName(this)"></div>
+                    </tbody>
+                </table>
+                <div class="form-navigation">
+                    <button type="button" class="nav-button prev" onclick="prevStep(2)">&larr; Geri</button>
+                    <button type="button" class="nav-button next" onclick="nextStep(2)">İleri &rarr;</button>
+                </div>
+            </div>
+            <div id="step-3" class="form-step">
+                <div class="form-section-title">Gerekli Belgeler</div>
+                <div class="form-section">
+                    <div class="form-group">
+                        <label for="cv">CV (Özgeçmiş)</label>
+                        <div class="file-input-wrapper">
+                            <span class="file-input-display">
+                                <span class="file-name">Dosya seçilmedi...</span>
+                                <span class="file-button">Gözat</span>
+                            </span>
+                            <input type="file" id="cv" name="cv" class="file-input-real" onchange="updateFileName(this)">
+                        </div>
                     </div>
                 </div>
-                                <div class="form-section-title" style="font-size: 18px; margin-top: 20px;">Kişisel
-                    Belgeler</div>
-                                <div class="form-section" style="grid-template-columns: 1fr 1fr; gap: 20px;">
-                                        <div class="form-group"><label for="fotograf">Fotoğraf</label>
-                        <div class="file-input-wrapper"><span class="file-input-display"><span class="file-name">Dosya
-                                    seçilmedi...</span><span class="file-button">Gözat</span></span><input type="file"
-                                id="fotograf" name="fotograf" class="file-input-real" onchange="updateFileName(this)">
+                <div class="form-section-title" style="font-size: 18px; margin-top: 20px;">Kişisel Belgeler</div>
+                <div class="form-section grid-2">
+                    <div class="form-group">
+                        <label for="fotograf">Fotoğraf</label>
+                        <div class="file-input-wrapper">
+                            <span class="file-input-display">
+                                <span class="file-name">Dosya seçilmedi...</span>
+                                <span class="file-button">Gözat</span>
+                            </span>
+                            <input type="file" id="fotograf" name="fotograf" class="file-input-real" onchange="updateFileName(this)">
                         </div>
                     </div>
-                                        <div class="form-group"><label for="pasaport">Pasaport</label>
-                        <div class="file-input-wrapper"><span class="file-input-display"><span class="file-name">Dosya
-                                    seçilmedi...</span><span class="file-button">Gözat</span></span><input type="file"
-                                id="pasaport" name="pasaport" class="file-input-real" onchange="updateFileName(this)">
+                    <div class="form-group">
+                        <label for="pasaport">Pasaport</label>
+                        <div class="file-input-wrapper">
+                            <span class="file-input-display">
+                                <span class="file-name">Dosya seçilmedi...</span>
+                                <span class="file-button">Gözat</span>
+                            </span>
+                            <input type="file" id="pasaport" name="pasaport" class="file-input-real" onchange="updateFileName(this)">
                         </div>
                     </div>
-                                        <div class="form-group"><label for="kimlikKarti">T.C. Kimlik Kartı</label>
-                        <div class="file-input-wrapper"><span class="file-input-display"><span class="file-name">Dosya
-                                    seçilmedi...</span><span class="file-button">Gözat</span></span><input type="file"
-                                id="kimlikKarti" name="kimlikKarti" class="file-input-real"
-                                onchange="updateFileName(this)"></div>
-                    </div>
-                                        <div class="form-group"><label for="surucuBelgesi">Sürücü Belgesi</label>
-                        <div class="file-input-wrapper"><span class="file-input-display"><span class="file-name">Dosya
-                                    seçilmedi...</span><span class="file-button">Gözat</span></span><input type="file"
-                                id="surucuBelgesi" name="surucuBelgesi" class="file-input-real"
-                                onchange="updateFileName(this)"></div>
-                    </div>
-                                    </div>
-                                <div class="form-section-title" style="font-size: 18px; margin-top: 20px;">Eğitim ve
-                    Meslek Belgeleri</div>
-                                <div class="form-section" style="grid-template-columns: 1fr 1fr; gap: 20px;">
-                                         <div class="form-group"><label
-                            for="diplomaTranskript">Diploma/Transkript</label>
-                        <div class="file-input-wrapper"><span class="file-input-display"><span class="file-name">Dosya
-                                    seçilmedi...</span><span class="file-button">Gözat</span></span><input type="file"
-                                id="diplomaTranskript" name="diplomaTranskript" class="file-input-real"
-                                onchange="updateFileName(this)"></div>
-                    </div>
-                                        <div class="form-group"><label for="mezuniyetBelgesi">Mezuniyet Belgesi</label>
-                        <div class="file-input-wrapper"><span class="file-input-display"><span class="file-name">Dosya
-                                    seçilmedi...</span><span class="file-button">Gözat</span></span><input type="file"
-                                id="mezuniyetBelgesi" name="mezuniyetBelgesi" class="file-input-real"
-                                onchange="updateFileName(this)"></div>
-                    </div>
-                                        <div class="form-group"><label for="meslekiYeterlilik">Mesleki
-                            Yeterlilik</label>
-                        <div class="file-input-wrapper"><span class="file-input-display"><span class="file-name">Dosya
-                                    seçilmedi...</span><span class="file-button">Gözat</span></span><input type="file"
-                                id="meslekiYeterlilik" name="meslekiYeterlilik" class="file-input-real"
-                                onchange="updateFileName(this)"></div>
-                    </div>
-                                        <div class="form-group"><label for="muhtelifBelgeler">Sertifika ve Belgeler
-                            </labe>
-                            <div class="file-input-wrapper"><span class="file-input-display"><span
-                                        class="file-name">Dosya seçilmedi...</span><span
-                                        class="file-button">Gözat</span></span><input type="file" id="muhtelifBelgeler"
-                                    name="muhtelifBelgeler" class="file-input-real" onchange="updateFileName(this)">
-                            </div>
-                    </div>
-                                    </div>
-                                <div class="form-section-title" style="font-size: 18px; margin-top: 20px;">Resmi
-                    (E-Devlet) Belgeleri</div>
-                                <div class="form-section" style="grid-template-columns: 1fr 1fr; gap: 20px;">
-                                        <div class="form-group"><label for="sgkHizmetCetveli">SGK Hizmet Cetveli</label>
-                        <div class="file-input-wrapper"><span class="file-input-display"><span class="file-name">Dosya
-                                    seçilmedi...</span><span class="file-button">Gözat</span></span><input type="file"
-                                id="sgkHizmetCetveli" name="sgkHizmetCetveli" class="file-input-real"
-                                onchange="updateFileName(this)"></div>
-                    </div>
-                                        <div class="form-group"><label for="adliSicil">Adli Sicil Belgesi</label>
-                        <div class="file-input-wrapper"><span class="file-input-display"><span class="file-name">Dosya
-                                    seçilmedi...</span><span class="file-button">Gözat</span></span><input type="file"
-                                id="adliSicil" name="adliSicil" class="file-input-real" onchange="updateFileName(this)">
+                    <div class="form-group">
+                        <label for="kimlikKarti">T.C. Kimlik Kartı</label>
+                        <div class="file-input-wrapper">
+                            <span class="file-input-display">
+                                <span class="file-name">Dosya seçilmedi...</span>
+                                <span class="file-button">Gözat</span>
+                            </span>
+                            <input type="file" id="kimlikKarti" name="kimlikKarti" class="file-input-real" onchange="updateFileName(this)">
                         </div>
                     </div>
-                                        <div class="form-group"><label for="almancaAdliSicil">Almanca Adli Sicil</label>
-                        <div class="file-input-wrapper"><span class="file-input-display"><span class="file-name">Dosya
-                                    seçilmedi...</span><span class="file-button">Gözat</span></span><input type="file"
-                                id="almancaAdliSicil" name="almancaAdliSicil" class="file-input-real"
-                                onchange="updateFileName(this)"></div>
-                    </div>
-                                        <div class="form-group"><label for="nufusKayit">Vukuatlı Nüfus Kayıt</label>
-                        <div class="file-input-wrapper"><span class="file-input-display"><span class="file-name">Dosya
-                                    seçilmedi...</span><span class="file-button">Gözat</span></span><input type="file"
-                                id="nufusKayit" name="nufusKayit" class="file-input-real"
-                                onchange="updateFileName(this)"></div>
-                    </div>
-                                        <div class="form-group"><label for="formulA">Formül A (Doğum)</label>
-                        <div class="file-input-wrapper"><span class="file-input-display"><span class="file-name">Dosya
-                                    seçilmedi...</span><span class="file-button">Gözat</span></span><input type="file"
-                                id="formulA" name="formulA" class="file-input-real" onchange="updateFileName(this)">
+                    <div class="form-group">
+                        <label for="surucuBelgesi">Sürücü Belgesi</label>
+                        <div class="file-input-wrapper">
+                            <span class="file-input-display">
+                                <span class="file-name">Dosya seçilmedi...</span>
+                                <span class="file-button">Gözat</span>
+                            </span>
+                            <input type="file" id="surucuBelgesi" name="surucuBelgesi" class="file-input-real" onchange="updateFileName(this)">
                         </div>
                     </div>
-                                        <div class="form-group"><label for="formulB">Formül B (Evlilik)</label>
-                        <div class="file-input-wrapper"><span class="file-input-display"><span class="file-name">Dosya
-                                    seçilmedi...</span><span class="file-button">Gözat</span></span><input type="file"
-                                id="formulB" name="formulB" class="file-input-real" onchange="updateFileName(this)">
-                        </div>
-                    </div>
-                                        <div class="form-group"><label for="hukukiBelgeler">Hukuki Belgeler</label>
-                        <div class="file-input-wrapper"><span class="file-input-display"><span class="file-name">Dosya
-                                    seçilmedi...</span><span class="file-button">Gözat</span></span><input type="file"
-                                id="hukukiBelgeler" name="hukukiBelgeler" class="file-input-real"
-                                onchange="updateFileName(this)"></div>
-                    </div>
-                                    </div>
-                                <div class="form-section-title" style="font-size: 18px; margin-top: 20px;">Ek Notlar
                 </div>
-                    <div class="form-section">
-                    <div class="form-group"><label for="message">Belgelerle ilgili eklemek istediğiniz
-                            notlar:</label><textarea id="message" name="message" rows="4"></textarea></div>
+                <div class="form-section-title" style="font-size: 18px; margin-top: 20px;">Eğitim ve Meslek Belgeleri</div>
+                <div class="form-section grid-2">
+                    <div class="form-group">
+                        <label for="diplomaTranskript">Diploma/Transkript</label>
+                        <div class="file-input-wrapper">
+                            <span class="file-input-display">
+                                <span class="file-name">Dosya seçilmedi...</span>
+                                <span class="file-button">Gözat</span>
+                            </span>
+                            <input type="file" id="diplomaTranskript" name="diplomaTranskript" class="file-input-real" onchange="updateFileName(this)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="mezuniyetBelgesi">Mezuniyet Belgesi</label>
+                        <div class="file-input-wrapper">
+                            <span class="file-input-display">
+                                <span class="file-name">Dosya seçilmedi...</span>
+                                <span class="file-button">Gözat</span>
+                            </span>
+                            <input type="file" id="mezuniyetBelgesi" name="mezuniyetBelgesi" class="file-input-real" onchange="updateFileName(this)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="meslekiYeterlilik">Mesleki Yeterlilik</label>
+                        <div class="file-input-wrapper">
+                            <span class="file-input-display">
+                                <span class="file-name">Dosya seçilmedi...</span>
+                                <span class="file-button">Gözat</span>
+                            </span>
+                            <input type="file" id="meslekiYeterlilik" name="meslekiYeterlilik" class="file-input-real" onchange="updateFileName(this)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="muhtelifBelgeler">Sertifika ve Belgeler</label>
+                        <div class="file-input-wrapper">
+                            <span class="file-input-display">
+                                <span class="file-name">Dosya seçilmedi...</span>
+                                <span class="file-button">Gözat</span>
+                            </span>
+                            <input type="file" id="muhtelifBelgeler" name="muhtelifBelgeler" class="file-input-real" onchange="updateFileName(this)">
+                        </div>
+                    </div>
                 </div>
-                                <div class="form-navigation"><button type="button" class="nav-button prev"
-                        onclick="prevStep(3)">&larr; Geri</button><button type="submit" class="submit-button"
-                        id="submitButton">BAŞVURUYU TAMAMLA VE GÖNDER</button></div>
-                            </div>
+                <div class="form-section-title" style="font-size: 18px; margin-top: 20px;">Resmi (E-Devlet) Belgeleri</div>
+                <div class="form-section grid-2">
+                    <div class="form-group">
+                        <label for="sgkHizmetCetveli">SGK Hizmet Cetveli</label>
+                        <div class="file-input-wrapper">
+                            <span class="file-input-display">
+                                <span class="file-name">Dosya seçilmedi...</span>
+                                <span class="file-button">Gözat</span>
+                            </span>
+                            <input type="file" id="sgkHizmetCetveli" name="sgkHizmetCetveli" class="file-input-real" onchange="updateFileName(this)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="adliSicil">Adli Sicil Belgesi</label>
+                        <div class="file-input-wrapper">
+                            <span class="file-input-display">
+                                <span class="file-name">Dosya seçilmedi...</span>
+                                <span class="file-button">Gözat</span>
+                            </span>
+                            <input type="file" id="adliSicil" name="adliSicil" class="file-input-real" onchange="updateFileName(this)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="almancaAdliSicil">Almanca Adli Sicil</label>
+                        <div class="file-input-wrapper">
+                            <span class="file-input-display">
+                                <span class="file-name">Dosya seçilmedi...</span>
+                                <span class="file-button">Gözat</span>
+                            </span>
+                            <input type="file" id="almancaAdliSicil" name="almancaAdliSicil" class="file-input-real" onchange="updateFileName(this)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nufusKayit">Vukuatlı Nüfus Kayıt</label>
+                        <div class="file-input-wrapper">
+                            <span class="file-input-display">
+                                <span class="file-name">Dosya seçilmedi...</span>
+                                <span class="file-button">Gözat</span>
+                            </span>
+                            <input type="file" id="nufusKayit" name="nufusKayit" class="file-input-real" onchange="updateFileName(this)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="formulA">Formül A (Doğum)</label>
+                        <div class="file-input-wrapper">
+                            <span class="file-input-display">
+                                <span class="file-name">Dosya seçilmedi...</span>
+                                <span class="file-button">Gözat</span>
+                            </span>
+                            <input type="file" id="formulA" name="formulA" class="file-input-real" onchange="updateFileName(this)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="formulB">Formül B (Evlilik)</label>
+                        <div class="file-input-wrapper">
+                            <span class="file-input-display">
+                                <span class="file-name">Dosya seçilmedi...</span>
+                                <span class="file-button">Gözat</span>
+                            </span>
+                            <input type="file" id="formulB" name="formulB" class="file-input-real" onchange="updateFileName(this)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="hukukiBelgeler">Hukuki Belgeler</label>
+                        <div class="file-input-wrapper">
+                            <span class="file-input-display">
+                                <span class="file-name">Dosya seçilmedi...</span>
+                                <span class="file-button">Gözat</span>
+                            </span>
+                            <input type="file" id="hukukiBelgeler" name="hukukiBelgeler" class="file-input-real" onchange="updateFileName(this)">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-section-title" style="font-size: 18px; margin-top: 20px;">Ek Notlar</div>
+                <div class="form-section">
+                    <div class="form-group">
+                        <label for="message">Belgelerle ilgili eklemek istediğiniz notlar:</label>
+                        <textarea id="message" name="message" rows="4"></textarea>
+                    </div>
+                </div>
+                <div class="form-navigation">
+                    <button type="button" class="nav-button prev" onclick="prevStep(3)">&larr; Geri</button>
+                    <button type="submit" class="submit-button" id="submitButton">BAŞVURUYU TAMAMLA VE GÖNDER</button>
+                </div>
+            </div>
+        </form>
+    </div>
 
-                    </form>
-            </div>
-       
     <script>
         let currentStep = 1;
         const form = document.getElementById('multiStepForm');
@@ -692,22 +906,28 @@
             currentStep = stepNumber;
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
         function nextStep(stepNumber) {
             if (validateStep(stepNumber)) {
                 showStep(stepNumber + 1);
             }
         }
+
         function prevStep(stepNumber) {
             showStep(stepNumber - 1);
         }
+
         function validateStep(stepNumber) {
             let isValid = true;
             const stepElement = document.getElementById(`step-${stepNumber}`);
-            const requiredInputs = stepElement.querySelectorAll('[required]');
-
+            
             // Tüm error mesajlarını temizle
             stepElement.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
-            stepElement.querySelectorAll('input, select, textarea').forEach(el => el.style.borderColor = 'var(--border-color)');
+            stepElement.querySelectorAll('input, select, textarea').forEach(el => {
+                if (el.type !== 'file') {
+                    el.style.borderColor = 'var(--border-color)';
+                }
+            });
 
             if (stepNumber === 1) {
                 const nameInput = document.getElementById('name');
@@ -716,22 +936,23 @@
                 if (nameInput.value.trim() === '') {
                     showError(nameInput, 'Bu alan zorunludur.');
                     isValid = false;
-                } else { hideError(nameInput); }
+                } else {
+                    hideError(nameInput);
+                }
 
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (!emailRegex.test(emailInput.value)) {
                     showError(emailInput, 'Geçerli bir e-posta girin.');
                     isValid = false;
-                } else { hideError(emailInput); }
+                } else {
+                    hideError(emailInput);
+                }
             }
 
-            // Adım 2 ve 3 için zorunlu alan doğrulaması gerekirse buraya eklenebilir.
-            // Örneğin CV'yi zorunlu yapmak:
+            // Adım 3 için CV zorunlu kontrolü
             if (stepNumber === 3) {
                 const cvInput = document.getElementById('cv');
-                // CV'nin zorunlu olduğunu varsayalım:
                 if (cvInput.files.length === 0) {
-                    const cvLabel = cvInput.closest('.form-group').querySelector('label');
                     showError(cvInput, 'CV yüklemek zorunludur eğer yok ise sitemizden oluşturabilirsiniz 😊 .');
                     isValid = false;
                 }
@@ -739,13 +960,13 @@
 
             return isValid;
         }
+
         function showError(inputElement, message) {
             const errorSpan = inputElement.nextElementSibling;
             let targetElement = inputElement;
 
             // Dosya inputları için hata mesajını farklı bir yere yazdır
             if (inputElement.type === 'file') {
-                // Dosya inputlarının hata mesajları için span'i label'ın yanına koyduk
                 const group = inputElement.closest('.form-group');
                 targetElement = group.querySelector('.file-input-display') || inputElement;
 
@@ -757,13 +978,16 @@
                 }
                 fileErrorSpan.textContent = message;
                 fileErrorSpan.style.display = 'block';
-
             } else if (errorSpan && errorSpan.classList.contains('error-message')) {
                 errorSpan.textContent = message;
                 errorSpan.style.display = 'block';
             }
-            targetElement.style.borderColor = '#d93025';
+            
+            if (targetElement.style) {
+                targetElement.style.borderColor = '#d93025';
+            }
         }
+
         function hideError(inputElement) {
             const errorSpan = inputElement.nextElementSibling;
             let targetElement = inputElement;
@@ -772,13 +996,18 @@
                 const group = inputElement.closest('.form-group');
                 targetElement = group.querySelector('.file-input-display') || inputElement;
                 const fileErrorSpan = group.querySelector('.file-error-message');
-                if (fileErrorSpan) { fileErrorSpan.style.display = 'none'; }
+                if (fileErrorSpan) {
+                    fileErrorSpan.style.display = 'none';
+                }
             } else if (errorSpan && errorSpan.classList.contains('error-message')) {
                 errorSpan.style.display = 'none';
             }
 
-            targetElement.style.borderColor = 'var(--border-color)';
+            if (targetElement.style) {
+                targetElement.style.borderColor = 'var(--border-color)';
+            }
         }
+
         function updateFileName(inputElement) {
             const fileNameSpan = inputElement.previousElementSibling.querySelector(".file-name");
             if (inputElement.files && inputElement.files.length > 0) {
@@ -818,8 +1047,6 @@
                 }
             }
         });
-
     </script>
 </body>
-
 </html>
