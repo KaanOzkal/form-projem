@@ -275,13 +275,13 @@ app.post('/submit', upload.fields(fileFields), async (req, res) => {
 
         await newApplication.save();
 
-        res.send('✅ Başvurunuz başarıyla alındı. Belgeler ve Rapor Drive\'daki özel klasörünüze yüklendi. <a href="/">Yeni Başvuru</a>');
+        res.send('✅ Başvurunuz başarıyla alındı. <a href="/">Yeni Başvuru</a>');
         
     } catch (error) {
         console.error('❌ Başvuru veya Kayıt Hatası:', error);
         res.status(500).send('Başvuru sırasında bir hata oluştu. Lütfen tekrar deneyin.');
     } finally {
-        // 5. ADIM: Geçici Yerel Dosyaları Sil
+
         localFilePaths.forEach(filePath => {
             fs.unlink(filePath, (err) => {
                 if (err) console.error('❗ Yerel dosya silinirken hata:', err);
