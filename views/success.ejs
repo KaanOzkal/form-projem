@@ -1,71 +1,174 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
+       
     <meta charset="UTF-8">
-    <title>Başvuru Alındı</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+       
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Başvuru Başarılı</title>
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+        :root {
+            --primary-color: #0c1f4c;
+            --success-color: #28a745;
+            --secondary-color: #007bff;
+            --bg-color: #f7f9fc;
+        }
+
         body {
             font-family: 'Inter', -apple-system, sans-serif;
-            background-color: #f0f2f5;
+            background-color: var(--bg-color);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             text-align: center;
         }
+
         .container {
             background-color: #fff;
             padding: 40px 60px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            max-width: 500px;
+            border-radius: 16px;
+            /* Daha yumuşak köşeler */
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.1);
+            /* Daha belirgin gölge */
+            max-width: 480px;
+            border-top: 5px solid var(--success-color);
+            /* Yeşil vurgu çizgisi */
+            animation: fadeInUp 0.5s ease-out;
         }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Checkmark stilleri (Aynı kalır, animasyon için gereklidir) */
         .checkmark {
-            width: 80px; height: 80px; border-radius: 50%; display: block;
-            stroke-width: 3; stroke: #28a745; stroke-miterlimit: 10;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 3;
+            stroke: var(--success-color);
+            stroke-miterlimit: 10;
             margin: 0 auto 20px auto;
-            box-shadow: inset 0px 0px 0px #28a745;
+            box-shadow: inset 0px 0px 0px var(--success-color);
             animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
         }
+
         .checkmark__circle {
-            stroke-dasharray: 166; stroke-dashoffset: 166; stroke-width: 3;
-            stroke-miterlimit: 10; stroke: #28a745; fill: none;
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 3;
+            stroke-miterlimit: 10;
+            stroke: var(--success-color);
+            fill: none;
             animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
         }
+
         .checkmark__check {
-            transform-origin: 50% 50%; stroke-dasharray: 48; stroke-dashoffset: 48;
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
             animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
         }
-        @keyframes stroke { 100% { stroke-dashoffset: 0; } }
-        @keyframes scale { 0%, 100% { transform: none; } 50% { transform: scale3d(1.1, 1.1, 1); } }
-        @keyframes fill { 100% { box-shadow: inset 0px 0px 0px 40px #28a745; } }
 
-        h1 { color: #0c1f4c; font-size: 26px; font-weight: 700; margin-bottom: 10px; }
-        p { color: #555; font-size: 16px; margin-bottom: 30px; }
-        .links a {
-            color: #007bff; 
-            text-decoration: none;
-            font-size: 16px;
-            margin: 0 15px;
-            font-weight: 600;
+        @keyframes stroke {
+            100% {
+                stroke-dashoffset: 0;
+            }
         }
-        .links a:hover { text-decoration: underline; }
+
+        @keyframes scale {
+
+            0%,
+            100% {
+                transform: none;
+            }
+
+            50% {
+                transform: scale3d(1.1, 1.1, 1);
+            }
+        }
+
+        @keyframes fill {
+            100% {
+                box-shadow: inset 0px 0px 0px 40px var(--success-color);
+            }
+        }
+
+        /* Yeni Metin Stilleri */
+        h1 {
+            color: var(--primary-color);
+            font-size: 32px;
+            font-weight: 800;
+            /* Daha kalın başlık */
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #6b7280;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        /* Link Stilleri */
+        .links a {
+            background-color: var(--secondary-color);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+        }
+
+        .links a:hover {
+            background-color: #0056b3;
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+        }
+
+        /* Mobil ayarlamalar */
+        @media (max-width: 500px) {
+            .container {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-            <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
-            <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        <div class="container">
+                <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                       
+            <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
+                       
+            <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                   
         </svg>
-        <h1>Başvurunuz Alındı!</h1>
-        <p>Tüm bilgileriniz ve belgeleriniz başarıyla sistemimize yüklendi.</p>
-        <div class="links">
-            <a href="/">Yeni Başvuru Yap</a>
-            <a href="/admin">Admin Paneline Git</a>
-        </div>
-    </div>
+                <h1>Başvurunuz Alındı!</h1>
+                <p>Talebiniz başarıyla işlendi ve ilgili birimimize iletilmiştir. Değerlendirmeniz en kısa sürede
+            yapılacaktır.</p>
+                <div class="links">
+                        <a href="/">Yeni Başvuru Yap</a>
+                    </div>
+            </div>
 </body>
+
 </html>
